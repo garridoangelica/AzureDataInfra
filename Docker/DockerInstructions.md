@@ -37,7 +37,7 @@ For conda environemnt
 run: 
 ```bash
 source /miniconda/etc/profile.d/conda.sh
-conda activate dbxdemos_env
+conda activate infra_env
 ```
 
 az login --use-device-code
