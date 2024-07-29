@@ -46,4 +46,4 @@ terraform plan -var-file=parameters.tfvars
 terraform apply -var-file=parameters.tfvars
 terraform destroy  -var-file=parameters.tfvars
 
-terraform init -backend-config="resource_group_name=rg-demos" -backend-config="storage_account_name=tfbackendinfra" -backend-config="container_name=dev-terraform" -backend-config="key=dev.terraform.tfstate"
+terraform init -backend-config="resource_group_name=rg-ag-tf-backend" -backend-config="storage_account_name=tfbackendinfra" -backend-config="container_name=dev-terraform" -backend-config="key=dev.terraform.tfstate"
