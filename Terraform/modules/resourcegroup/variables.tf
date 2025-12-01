@@ -1,11 +1,3 @@
-variable "backend_rg" {
-    default = ""
-}
-
-variable "backend_st" {
-    default = ""
-}
-
 variable "env" {
     default = ""
 }
@@ -23,12 +15,5 @@ variable "prefix" {
 }
 
 variable "resourcegroups" {
-    default=[]
-}
-
-variable "azuresql_mi" {
-    default=[]
-}
-variable "azuresql_database" {
     default=[]
 }
