@@ -1,2 +1,7 @@
 Terraform/.terraform/
 Terraform/.terraform.lock.hcl
+.env
+sqlcmd-linux.tar.bz2
+AzuriteConfig
+__azurite_db_table__.json
+Fabric/CLIDeployment/tmp/*
