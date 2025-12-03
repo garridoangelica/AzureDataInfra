@@ -11,6 +11,8 @@ Here's an example of how to run this Fabric CLI deployment:
 
 In this example we're creating a workspace, a lakehouse, a data warehouse with tables, importing a notebook and supporting 2 authentication methods: service principal and interactive.
 
+**Note:** The script assumes there's a workspace directory containing workspace objects (the second parameter `DataEngineeringWSDevCICD` in the example above). This directory should contain your Fabric items like notebooks, lakehouses, etc. If you don't want to leverage a source workspace directory, you can adjust the code to ignore this parameter.
+
 ## 🏗️ Architecture
 
 The framework follows a modular architecture with separated concerns:
@@ -34,58 +36,47 @@ Fabric/CLIDeployment/
 └── Workspaces/              # Workspace definitions & artifacts
 ```
 
-## 📦 Module Descriptions
+## Module Descriptions
 
-### 🔐 Authentication Module (`modules/authentication/auth.sh`)
-Handles multiple authentication methods for Fabric CLI:
-- **Service Principal Authentication**: Automated authentication using Azure AD App Registration
-- **Interactive Authentication**: Browser-based login for development scenarios
-- **Environment Variable Loading**: Secure credential management via `.env` files
-- **Authentication Status Checking**: Validates current login state
+### Authentication (`modules/authentication/auth.sh`)
+Handles Fabric CLI authentication with two methods:
+- **Service Principal**: Uses `.env` file credentials for automation
+- **Interactive**: Browser-based login for development
+- Accepts `env` or `interactive` as parameters
 
-### 🏢 Workspace Module (`modules/workspace/ws.sh`)
-Manages Fabric workspace lifecycle:
-- **Workspace Creation**: Creates new workspaces with capacity assignment
-- **Capacity Management**: Associates workspaces with Fabric capacities
-- **Workspace Validation**: Checks workspace existence and accessibility
-- **Configuration Management**: Handles workspace-specific settings
+### Workspace (`modules/workspace/ws.sh`)  
+Creates and manages Fabric workspaces with capacity assignment
 
-### 🏠 Lakehouse Module (`modules/lakehouse/lk.sh`)
-Provides lakehouse management capabilities:
-- **Lakehouse Creation**: Deploys new lakehouses with configurable settings
-- **Schema Management**: Handles lakehouse schema configurations
-- **Metadata Handling**: Manages lakehouse properties and dependencies
+### Lakehouse (`modules/lakehouse/lk.sh`)
+Creates lakehouses with schema configuration options
 
-### 🏭 Warehouse Module (`modules/warehouse/`)
-Comprehensive data warehouse management:
-- **`wh.sh`**: Core warehouse creation and configuration
-- **`whTables.sh`**: Automated table creation from DDL files
-- **SQL Execution**: Direct SQL command execution via sqlcmd
-- **Connection String Management**: Automated warehouse connection handling
+### Warehouse (`modules/warehouse/`)
+- **`wh.sh`**: Creates data warehouses
+- **`whTables.sh`**: Executes DDL files to create tables via sqlcmd
 
-### 🛠️ Utilities Module (`modules/utils/logfns.sh`)
-Shared functionality across all modules:
-- **Logging Functions**: Standardized logging with different severity levels
-- **Error Handling**: Consistent error reporting and handling
-- **Environment Management**: Shared environment variable functions
+### Utilities (`modules/utils/logfns.sh`)
+Shared logging and error handling functions
 
 ## 🔧 Requirements
 
 ### System Prerequisites
 - **Operating System**: Windows with Git Bash (not PowerShell compatible)
 - **Git Bash**: Required for script execution environment
-- **Internet Connection**: Required for Fabric CLI API calls
 
 ## Requirements for Running Locally
 
 **Note: This is written for Git Bash and not PowerShell**
 
-You need this installed for executing SQL scripts in warehouse:
-https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-download-install?view=sql-server-ver17&tabs=windows
+You need:
 
-And the Fabric CLI - you can get it here or install via npm.
+1. **Python** - Python version 3.10, 3.11, or 3.12 is installed on your machine (required for Fabric CLI)
 
-You need to create a `.env` file with service principal secrets, client id and tenant if you would like to use SPN to authenticate. Otherwise use interactive mode for authentication.
+2. **Fabric CLI** - Follow this doc for installation instructions: https://microsoft.github.io/fabric-cli/
+
+3. **SQL Command Line Tools** - For executing SQL scripts in warehouse:
+   https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-download-install?view=sql-server-ver17&tabs=windows
+
+You need to create a `.env` file in the CLIDeployment folder with service principal secrets, client id and tenant if you would like to use SPN to authenticate. Otherwise use interactive mode for authentication.
 
 In your `.env` put the following parameters (Note: do not enclose parameters in quotes):
 ```
@@ -109,22 +100,16 @@ FABRIC_TENANT_ID=<tenantid>
 2. **Configure Environment**:
    ```bash
    # Create .env file with your credentials
-   cp .env.example .env
-   # Edit .env with your values
+   cat > .env << EOF
+    FABRIC_CLIENT_ID=your-client-id
+    FABRIC_CLIENT_SECRET=your-client-secret
+    FABRIC_TENANT_ID=your-tenant-id
+    EOF
    ```
 
 3. **Run Deployment**:
    ```bash
-   ./fabric-deploy.sh deploy WorkspaceName CapacityName LakehouseName WarehouseName NotebookName env
-   ```
-
-4. **Authentication Options**:
-   ```bash
-   # Service Principal (automated)
-   ./fabric-deploy.sh auth-only
-   
-   # Interactive login
-   ./fabric-deploy.sh auth-interactive
+   ./fabric-deploy.sh deploy <sourceWorkspaceName> <destWorkspaceName> <CapacityName >LakehouseName> <WarehouseName> <NotebookName> env
    ```
 
 ## ✅ What's Supported
@@ -144,12 +129,11 @@ FABRIC_TENANT_ID=<tenantid>
 - ✅ **SQL Execution**: Direct warehouse table management via sqlcmd
 - ✅ **CLI API Integration**: Support for advanced API operations
 
-## What's Great About the CLI
+## What's Great About the Fabric CLI
 
-- **Lots of flexibility** to create items the way you want
-- For example, you can create code that would look at an existing workspace git repo and create code to go through each item and deploy. But it requires extra work to make this happen
-- **Fast deployment** once you get it working
-- **Scriptable and automatable** - great for CI/CD pipelines
+- **Lots of flexibility** to create items the way you want. For example, you can create code that would look at an existing workspace git repo and create code to go through each item and deploy. But it requires extra work to make this happen
+- **Fast deployment** you can perform operations directly from the ternminal without switching to the Fabric UI. It also does not require many installation tools to get it running locally. 
+- **Scriptable and automatable** - great for CI/CD pipelines. It integrates well with automation tools. 
 
 ## Issues I Ran Into
 
@@ -177,15 +161,15 @@ x create: [Special characters not supported for this item type] Lakehouse name '
 
 **Use the CLI when:**
 - You want to quickly set up development/test environments
+- You're already familiar with command-line tools
 - You need repeatable, scriptable deployments  
-- You're doing bulk operations (creating multiple workspaces)
-- You want to integrate with CI/CD pipelines
+- You're doing bulk, high level operations/items (creating multiple workspaces, lakehouses)
+- You want to integrate with CI/CD pipelines easily
 
 **Don't use the CLI when:**
-- You need very detailed, granular configuration of items
-- You're working in production environments where you need extensive validation
-- You need to create complex pipelines or dataflows with lots of activities
+- You need very detailed, granular configuration of items. You may have to leverage the API for further config 
 - You need detailed error messages and troubleshooting capabilities
+- You're not familiar with Fabric dependencies. You need to follow an order of deploying items to avoid dependency errors
 
 ## Advanced Scenarios with CLI API
 
@@ -220,29 +204,9 @@ fab api workspaces
 fab api workspaces/<workspaceid>/items -X post -H "content-type=application/json" -i '$body'
 ```
 
-## Further Work
-
-Some things I'd like to explore further with item definitions like creating pipelines with the CLI API functionality:
-
-- **Pipeline deployment** using the API functions within the CLI
-- **Dataflow creation** for more complex data transformation scenarios
-- **Environment management** - creating and configuring Fabric environments
-- **More robust error handling** and validation before deployment
-- **Configuration files** to define entire workspace structures
-- **Dependency management** between items (like notebooks that depend on specific lakehouses)
-
 ## 🔧 Troubleshooting
 
 ### 🚨 **Common Issues & Solutions**
-
-#### Authentication Problems
-```bash
-# Check authentication status
-./fabric-deploy.sh status
-
-# Re-authenticate if needed  
-./fabric-deploy.sh auth-interactive
-```
 
 #### Permission Issues
 - Verify service principal has capacity contributor permissions
@@ -254,14 +218,13 @@ Some things I'd like to explore further with item definitions like creating pipe
 # Verify CLI installation
 fab --version
 
-# Update to latest version
-npm update -g @microsoft/fabric-cli
+pip install ms-fabric-cli
 ```
 
 #### SQL Connection Issues  
 ```bash
 # Test sqlcmd connectivity
-sqlcmd -S "your-warehouse-connection-string" -G -Q "SELECT 1"
+sqlcmd -S "your-warehouse-connection-string" -d "warehouse_name" -G -C -Q  "SELECT 1"
 
 # Verify newer sqlcmd version
 sqlcmd --version  # Should show v1.9.0 or later
