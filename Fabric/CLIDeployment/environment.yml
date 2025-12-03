@@ -1,0 +1,9 @@
+name: fabricclideployment
+channels: 
+  - defaults
+  - conda-forge
+dependencies: 
+  - python=3.10
+  - pip
+  - pip:
+    - ms-fabric-cli==1.2.0
