@@ -1,0 +1,40 @@
+# Parameter file for environment-specific value replacements
+# This file supports DEV, TEST, and PROD environments
+
+find_replace:
+  # Replace SilverLakehouse ID in the notebook using regex to match the default_lakehouse GUID
+  - find_value: \#\s*META\s+"default_lakehouse":\s*"([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})"
+    replace_value:
+      _ALL_: "$items.Lakehouse.SilverLakehouse.$id"
+    is_regex: "true"
+    item_type: "Notebook"
+    item_name: "SilverToGoldNotebook"
+  
+  # Replace workspace ID in the notebook using regex to match the default_lakehouse_workspace_id GUID
+  - find_value: \#\s*META\s+"default_lakehouse_workspace_id":\s*"([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})"
+    replace_value:
+      _ALL_: "$workspace.$id"
+    is_regex: "true"
+    item_type: "Notebook"
+    item_name: "SilverToGoldNotebook"
+
+  # Replace known Lakehouse Id in the notebook
+  - find_value: "11d5a2f9-aac4-4120-8c3d-71415bcc85d5"
+    replace_value:
+      _ALL_: "$items.Lakehouse.SilverLakehouse.$id"
+    item_type: "Notebook"
+
+key_value_replace:
+  # Replace notebook ID in the pipeline to reference the deployed SilverToGoldNotebook
+  - find_key: $.properties.activities[?(@.name=="SilverToGold")].typeProperties.notebookId
+    replace_value:
+      _ALL_: "$items.Notebook.SilverToGoldNotebook.$id"
+    item_type: "DataPipeline"
+    item_name: "OrchestrateSilverToGoldPipeline"
+  
+  # Replace workspace ID in the pipeline to reference the target workspace
+  - find_key: $.properties.activities[?(@.name=="SilverToGold")].typeProperties.workspaceId
+    replace_value:
+      _ALL_: "$workspace.$id"
+    item_type: "DataPipeline"
+    item_name: "OrchestrateSilverToGoldPipeline"
