@@ -5,5 +5,38 @@ sqlcmd-linux.tar.bz2
 AzuriteConfig
 __azurite_db_table__.json
 Fabric/CLIDeployment/tmp/*
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# Azure/Fabric authentication cache
+.azure/
+.msal_token_cache.json
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Fabric CI/CD specific
+Fabric/Fabric-CICD/.fabric_cache/
+*.log
+
+# Environment-specific secrets (if not already covered)
+*.tfvars
+!parameters.tfvars.example
+secrets.yml
+local.config.yml
 __pycache__/
 output/

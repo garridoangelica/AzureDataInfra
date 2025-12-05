@@ -1,0 +1,46 @@
+# Fabric Workspace Deployment Configuration
+# Environment-specific settings for DEV, TEST, and PROD
+
+core:
+  # Environment-specific workspace names
+  workspace:
+    DEV: "DataEngineering-Dev"
+    TEST: "DataEngineering-Test"
+    PROD: "DataEngineering-Prod"
+
+  # Path to workspace items (relative to this config file)
+  repository_directory: "../Workspaces/DataEngineeringWSDevCICD"
+
+  # Item types to deploy
+  item_types_in_scope:
+    - Lakehouse
+    - Warehouse
+    - Notebook
+    - DataPipeline
+
+  # Path to parameter file for environment-specific replacements
+  parameter: "parameter.yml"
+
+publish:
+  # Skip publishing in DEV (for testing configuration)
+  skip:
+    DEV: false
+    TEST: false
+    PROD: false
+
+  # Exclude items matching this pattern from publishing
+  exclude_regex: "^TEST_.*|.*_DRAFT$"
+
+unpublish:
+  # Control orphan item cleanup per environment
+  skip:
+    DEV: false    # Clean up orphans in dev
+    TEST: false   # Clean up orphans in test
+    PROD: true    # Don't clean up orphans in prod (safer)
+
+  # Don't unpublish debug or system items
+  exclude_regex: "^DEBUG_.*|^SYSTEM_.*"
+
+features:
+  - enable_experimental_features
+  - enable_config_deploy
