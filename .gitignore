@@ -38,3 +38,5 @@ Fabric/Fabric-CICD/.fabric_cache/
 !parameters.tfvars.example
 secrets.yml
 local.config.yml
+__pycache__/
+output/

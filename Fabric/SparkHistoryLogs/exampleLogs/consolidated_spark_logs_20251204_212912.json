@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "workspace_id": "your-workspace-id-here",
+    "workspace_name": "unknown",
+    "consolidation_started": "2025-12-04T21:29:35.197155",
+    "total_sessions_processed": 5,
+    "last_updated": "2025-12-04T21:30:15.768181"
+  },
+  "log_summaries": [
+    {
+      "spark_application_id": "application_1764884208868_0001",
+      "livy_id": "example-livy-id-1",
+      "app_url": "https://app.powerbi.com/workloads/de-ds/sparkmonitor/your-notebook-id/your-livy-id?experience=power-bi",
+      "notebook_id": "your-notebook-id-here",
+      "notebook_name": "SilverToGoldNotebook",
+      "workspace_id": "your-workspace-id-here",
+      "workspace_name": "DataEngineeringWSDevCICD",
+      "temp_directory": "C:\\Users\\username\\AppData\\Local\\Temp\\9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg",
+      "downloaded_files": [
+        "C:\\Users\\username\\AppData\\Local\\Temp\\9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg\\livy_logs.txt",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg\\driver_stdout.log",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg\\driver_stderr.log"
+      ],
+      "download_timestamp": "2025-12-04T21:29:35.192157"
+    },
+    {
+      "spark_application_id": "application_1764881183220_0001",
+      "livy_id": "example-livy-id-2",
+      "app_url": "https://app.powerbi.com/workloads/de-ds/sparkmonitor/your-notebook-id/your-livy-id?experience=power-bi",
+      "notebook_id": "your-notebook-id-here",
+      "notebook_name": "SilverToGoldNotebook",
+      "workspace_id": "your-workspace-id-here",
+      "workspace_name": "DataEngineeringWSDevCICD",
+      "temp_directory": "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg",
+      "downloaded_files": [
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg\\livy_logs.txt",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg\\driver_stdout.log",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_9a515ee6-bd05-4017-8ef1-f68a49487fe6_nm30p1lg\\driver_stderr.log"
+      ],
+      "download_timestamp": "2025-12-04T21:29:44.684532"
+    },
+    {
+      "spark_application_id": "application_1764880041378_0001",
+      "livy_id": "example-livy-id-3",
+      "app_url": "https://app.powerbi.com/workloads/de-ds/sparkmonitor/your-notebook-id/your-livy-id?experience=power-bi",
+      "notebook_id": "your-notebook-id-here",
+      "notebook_name": "SilverToGoldNotebook",
+      "workspace_id": "your-workspace-id-here",
+      "workspace_name": "DataEngineeringWSDevCICD",
+      "temp_directory": "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_ab588b09-10a9-447c-9ac9-fba82951bb83_ry4yypbh",
+      "downloaded_files": [
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_ab588b09-10a9-447c-9ac9-fba82951bb83_ry4yypbh\\livy_logs.txt",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_ab588b09-10a9-447c-9ac9-fba82951bb83_ry4yypbh\\driver_stdout.log",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_ab588b09-10a9-447c-9ac9-fba82951bb83_ry4yypbh\\driver_stderr.log"
+      ],
+      "download_timestamp": "2025-12-04T21:29:56.446773"
+    },
+    {
+      "spark_application_id": "application_1763756261714_0001",
+      "livy_id": "example-livy-id-4",
+      "app_url": "https://app.powerbi.com/workloads/de-ds/sparkmonitor/your-notebook-id/your-livy-id?experience=power-bi",
+      "notebook_id": "your-notebook-id-here",
+      "notebook_name": "SilverToGoldNotebook",
+      "workspace_id": "your-workspace-id-here",
+      "workspace_name": "DataEngineeringWSDevCICD",
+      "temp_directory": "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bfb4be7-454e-476b-b70e-82551f37b1c7_0fqjwwr6",
+      "downloaded_files": [
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bfb4be7-454e-476b-b70e-82551f37b1c7_0fqjwwr6\\livy_logs.txt",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bfb4be7-454e-476b-b70e-82551f37b1c7_0fqjwwr6\\driver_stdout.log",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bfb4be7-454e-476b-b70e-82551f37b1c7_0fqjwwr6\\driver_stderr.log"
+      ],
+      "download_timestamp": "2025-12-04T21:30:05.887477"
+    },
+    {
+      "spark_application_id": "application_1763755617184_0001",
+      "livy_id": "example-livy-id-5",
+      "app_url": "https://app.powerbi.com/workloads/de-ds/sparkmonitor/your-notebook-id/your-livy-id?experience=power-bi",
+      "notebook_id": "your-notebook-id-here",
+      "notebook_name": "SilverToGoldNotebook",
+      "workspace_id": "your-workspace-id-here",
+      "workspace_name": "DataEngineeringWSDevCICD",
+      "temp_directory": "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bcead03-c992-4b0e-942e-0317885c253d_lpgzbjcn",
+      "downloaded_files": [
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bcead03-c992-4b0e-942e-0317885c253d_lpgzbjcn\\livy_logs.txt",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bcead03-c992-4b0e-942e-0317885c253d_lpgzbjcn\\driver_stdout.log",
+        "C:\\Users\\username\\AppData\\Local\\Temp\\spark_logs_0bcead03-c992-4b0e-942e-0317885c253d_lpgzbjcn\\driver_stderr.log"
+      ],
+      "download_timestamp": "2025-12-04T21:30:15.759652"
+    }
+  ]
+}
