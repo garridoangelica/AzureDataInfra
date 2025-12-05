@@ -133,7 +133,7 @@ class SparkLogExtractor:
 
 def main():
     """Original main function for backwards compatibility"""
-    workspace_id = "dfeef225-5614-4404-b47a-3fbaecefac22"
+    workspace_id = ""
     auth_method = "cli"
     
     extractor = SparkLogExtractor(workspace_id, auth_method)
@@ -149,7 +149,7 @@ def _get_livy_sessions_simple():
         """
         Get an access token using a service principal.
         """
-        tenant_id =  "87cc5455-b9db-4fc3-94a4-e336fcf439ff"
+        tenant_id =  ""
 
         if type == 'spn':
             # Use environment variables for security - never hardcode secrets!
@@ -171,8 +171,8 @@ def _get_livy_sessions_simple():
         }
         return headers
 
-    workspace_id = "dfeef225-5614-4404-b47a-3fbaecefac22"
-    notebook_id = '802686db-3826-48de-8b6e-3e090342e27c'
+    workspace_id = ""
+    notebook_id = ''
 
     url = f"https://api.fabric.microsoft.com/v1/workspaces/{workspace_id}/notebooks/{notebook_id}/livySessions"
     sessions_dict = requests.get(url, headers=_get_headers('interactive')).json()

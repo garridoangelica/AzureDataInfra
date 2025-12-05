@@ -92,8 +92,6 @@ python spark_security_pipeline.py --workspace-id YOUR-WORKSPACE-ID --auth-method
 2. Look at the URL: `https://app.fabric.microsoft.com/groups/YOUR-WORKSPACE-ID/...`
 3. Copy the GUID between `/groups/` and the next `/`
 
-**Example Workspace ID:** `dfeef225-5614-4404-b47a-3fbaecefac22`
-
 ## 📁 Project Structure
 
 ```
