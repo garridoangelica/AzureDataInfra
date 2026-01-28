@@ -1,0 +1,9 @@
+{
+	"name": "adf-ag-dev-msft-eastus2-sample",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ddeabdec-23c8-425c-853d-54fbd081fd3b",
+		"tenantId": "87cc5455-b9db-4fc3-94a4-e336fcf439ff"
+	}
+}

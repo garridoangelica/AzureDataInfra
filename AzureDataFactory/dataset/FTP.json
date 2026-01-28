@@ -1,0 +1,25 @@
+{
+	"name": "FTP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FtpServerGov",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"fileName": "csv_hak.zip",
+				"folderPath": "programs-surveys/acs/experimental/2020/data/pums/1-Year"
+			},
+			"columnDelimiter": ",",
+			"compressionCodec": "ZipDeflate",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

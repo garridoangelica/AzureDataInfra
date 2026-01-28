@@ -1,0 +1,19 @@
+{
+	"name": "Experimental",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS_stagdevmsfteastus2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "programs-surveys/acs/experimental/2020/data/pums/1-Year",
+				"fileSystem": "container"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

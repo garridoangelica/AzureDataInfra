@@ -1,0 +1,25 @@
+{
+	"name": "Bronze",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS_stagdevmsfteastus2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "data_52d89539-b05e-4ad3-97b7-95816bd765f3_a6ff2a51-e3da-4874-ab60-c68348af1817.csv",
+				"folderPath": "bronze/Gov/SFTP/programs-surveys/acs/experimental/2020/data/pums/1-Year",
+				"fileSystem": "container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

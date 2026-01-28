@@ -1,0 +1,11 @@
+{
+	"name": "ADLS_stagdevmsfteastus2",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://stagdevmsfteastus2.dfs.core.windows.net/"
+		}
+	}
+}
