@@ -1,0 +1,59 @@
+SPARK SESSION ANALYSIS - EXTERNAL CONNECTIONS SUMMARY
+================================================================================
+
+Analysis Date: 2025-12-04 21:30:54
+Total Sessions Analyzed: 7
+Sessions with ANY Outbound Connections: 7
+Sessions with EXTERNAL Connections: 1
+Trusted Domains Configured: 19
+
+TRUSTED DOMAINS/PATTERNS:
+------------------------------
+  • 127.0.0.1
+  • ::1
+  • analysis.windows.net
+  • api.fabric.microsoft.com
+  • exec.eastus.notebook.windows.net
+  • exec.northeurope.notebook.windows.net
+  • exec.westeurope.notebook.windows.net
+  • exec.westus.notebook.windows.net
+  • localhost
+  • onelake.dfs.fabric.microsoft.com
+  • operation-service
+  • pbidedicated.windows.net
+  • sparkui.fabric.microsoft.com
+  • storage.azure.com
+  • tokenservice1.eastus.trident.azuresynapse.net
+  • tokenservice1.northeurope.trident.azuresynapse.net
+  • tokenservice1.westeurope.trident.azuresynapse.net
+  • tokenservice1.westus.trident.azuresynapse.net
+  • vm-
+
+!!! SESSIONS WITH EXTERNAL CONNECTIONS (SECURITY REVIEW NEEDED) !!!
+======================================================================
+
+1. Notebook: Notebook_Test_external
+   Livy ID: 3139e75f-8752-4622-8a24-c704c426e5fa
+   Workspace: DataEngineeringWSDevCICD
+   External Connections: 3
+   Trusted Connections: 877
+   Monitor URL: https://app.powerbi.com/workloads/de-ds/sparkmonitor/5cf2d074-6307-46e9-949e-a9ed9f15116f/3139e75f-8752-4622-8a24-c704c426e5fa?experience=power-bi
+   !!! EXTERNAL HOSTS: stagdevmsfteastus
+   ------------------------------------------------------------
+
+=== ALL SESSIONS SUMMARY (Including Trusted) ===
+--------------------------------------------------
+   SilverToGoldNotebook (b73f6247-a4f0-4e6b-8628-e450742d2870) - + TRUSTED ONLY
+      External: 0, Trusted: 607
+   SilverToGoldNotebook (9a515ee6-bd05-4017-8ef1-f68a49487fe6) - + TRUSTED ONLY
+      External: 0, Trusted: 607
+   SilverToGoldNotebook (ab588b09-10a9-447c-9ac9-fba82951bb83) - + TRUSTED ONLY
+      External: 0, Trusted: 588
+   SilverToGoldNotebook (0bfb4be7-454e-476b-b70e-82551f37b1c7) - + TRUSTED ONLY
+      External: 0, Trusted: 588
+   SilverToGoldNotebook (0bcead03-c992-4b0e-942e-0317885c253d) - + TRUSTED ONLY
+      External: 0, Trusted: 628
+   SilverToGoldNotebook (d3eefd10-1944-434d-92a9-768f72fda67a) - + TRUSTED ONLY
+      External: 0, Trusted: 692
+   Notebook_Test_external (3139e75f-8752-4622-8a24-c704c426e5fa) - ! HAS EXTERNAL
+      External: 3, Trusted: 877
