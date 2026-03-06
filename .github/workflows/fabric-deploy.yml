@@ -45,6 +45,15 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Preflight validation (TEST)
+        run: |
+          cd Fabric/Fabric-CICD
+          python deploy.py \
+            --config config.yml \
+            --environment TEST \
+            --cli-auth \
+            --validate
+
       - name: Deploy all items to TEST
         run: |
           cd Fabric/Fabric-CICD
@@ -79,6 +88,15 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Preflight validation (PROD)
+        run: |
+          cd Fabric/Fabric-CICD
+          python deploy.py \
+            --config config.yml \
+            --environment PROD \
+            --cli-auth \
+            --validate
 
       - name: Deploy all items to PROD
         run: |
