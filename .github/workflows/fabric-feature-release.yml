@@ -34,7 +34,6 @@ jobs:
   feature-release:
     name: Feature Release → ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
-    # Dynamically selects the GitHub Environment so each target has its own reviewers/secrets
     environment: fabriccicd
 
     steps:
@@ -83,20 +82,37 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Preflight validation
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          cd Fabric/Fabric-CICD
+          ITEMS="${{ github.event.inputs.items }}"
+          if [ -z "$ITEMS" ]; then
+            python deploy.py \
+              --config config.yml \
+              --environment ${{ github.event.inputs.environment }} \
+              --cli-auth \
+              --validate
+          else
+            python deploy.py \
+              --config config.yml \
+              --environment ${{ github.event.inputs.environment }} \
+              --cli-auth \
+              --items "$ITEMS" \
+              --validate
+          fi
+
       - name: Deploy selected items
         if: ${{ github.event.inputs.dry_run != 'true' }}
         run: |
           cd Fabric/Fabric-CICD
           ITEMS="${{ github.event.inputs.items }}"
-
           if [ -z "$ITEMS" ]; then
-            echo "No item filter supplied — deploying all in-scope items."
             python deploy.py \
               --config config.yml \
               --environment ${{ github.event.inputs.environment }} \
               --cli-auth
           else
-            echo "Deploying selected items: $ITEMS"
             python deploy.py \
               --config config.yml \
               --environment ${{ github.event.inputs.environment }} \
