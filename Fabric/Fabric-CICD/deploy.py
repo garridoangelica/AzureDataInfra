@@ -15,166 +15,192 @@ from fabric_cicd import deploy_with_config, append_feature_flag
 from auth import get_fabric_credential
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
 def build_item_exclude_regex(item_names: list) -> str:
-    """
-    Return a regex matching anything EXCEPT the supplied item names.
-    Used to limit publishing to only the listed items during a feature release.
-    """
+    """Return a regex matching anything EXCEPT the supplied item names."""
     escaped = [re.escape(n.strip()) for n in item_names if n.strip()]
     if not escaped:
         return None
     return rf"^(?!(?:{'|'.join(escaped)})$).*"
 
 
-def parse_parameter_item_refs(parameter_yml: Path) -> list[dict]:
-    """
-    Extract all $items.{Type}.{Name}.$id references from parameter.yml.
-    Returns a list of dicts: [{"type": "Lakehouse", "name": "SilverLakehouse"}, ...]
-    """
+def parse_parameter_item_refs(parameter_yml: Path) -> list:
+    """Extract all $items.{Type}.{Name}.$id references from parameter.yml."""
     if not parameter_yml.exists():
         return []
-
     with open(parameter_yml, encoding="utf-8") as fh:
         raw = fh.read()
-
     refs = []
-    # Matches: $items.Lakehouse.SilverLakehouse.$id
     for m in re.finditer(r'\$items\.(\w+)\.(\w+)\.\$id', raw):
-        refs.append({"type": m.group(1), "name": m.group(2)})
+        entry = {"type": m.group(1), "name": m.group(2)}
+        if entry not in refs:
+            refs.append(entry)
     return refs
 
 
-def get_workspace_items_from_api(workspace_name: str, credential) -> list[dict]:
+def get_workspace_info(workspace_name: str, credential):
     """
-    Fetch all items currently in the target Fabric workspace via REST API.
-    Returns list of dicts with 'displayName' and 'type'.
+    Resolve workspace name → ID and fetch all items currently in it.
+    Returns (workspace_id, list_of_items).
+    Raises RuntimeError if the workspace cannot be reached or found.
     """
     import urllib.request
     import urllib.error
 
-    # Acquire token for Fabric API
     token = credential.get_token("https://api.fabric.microsoft.com/.default").token
+    headers = {"Authorization": f"Bearer {token}"}
 
-    # First resolve workspace name → ID
-    url = "https://api.fabric.microsoft.com/v1/workspaces"
-    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
-    try:
-        with urllib.request.urlopen(req) as resp:
-            workspaces = json.loads(resp.read())["value"]
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"Failed to list workspaces: {e.code} {e.reason}")
+    def api_get(url):
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(req) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            raise RuntimeError(f"API error {e.code} calling {url}: {e.reason}")
 
+    workspaces = api_get("https://api.fabric.microsoft.com/v1/workspaces")["value"]
     ws = next((w for w in workspaces if w["displayName"] == workspace_name), None)
     if not ws:
         raise RuntimeError(
             f"Workspace '{workspace_name}' not found. "
-            "Verify it exists and the SPN has access."
+            "Verify it exists and the SPN has Contributor access."
         )
 
-    ws_id = ws["id"]
-
-    # List items in the workspace
-    url = f"https://api.fabric.microsoft.com/v1/workspaces/{ws_id}/items"
-    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
-    try:
-        with urllib.request.urlopen(req) as resp:
-            return json.loads(resp.read())["value"]
-    except urllib.error.HTTPError as e:
-        raise RuntimeError(f"Failed to list workspace items: {e.code} {e.reason}")
+    items = api_get(
+        f"https://api.fabric.microsoft.com/v1/workspaces/{ws['id']}/items"
+    )["value"]
+    return ws["id"], items
 
 
-def preflight_validate(config_path: Path, environment: str, credential) -> bool:
+# ── Preflight ─────────────────────────────────────────────────────────────────
+
+def preflight_validate(
+    config_path: Path,
+    environment: str,
+    credential,
+    items: list = None,         # selected items for feature release (None = full deploy)
+) -> bool:
     """
-    Run preflight checks before deployment:
-      1. Verify all source item folders exist locally.
-      2. Verify all $items.X.Y.$id references in parameter.yml resolve to items
-         that are either being deployed (present locally) or already exist in
-         the target workspace.
+    Preflight checks before deployment.
 
-    Returns True if all checks pass, False otherwise.
+    1. Target workspace is reachable and the SPN has access.
+    2. Source item folders exist with valid .platform files.
+    3. All $items.X.Y.$id references in parameter.yml resolve to items that
+       will be present in the target workspace after this deployment:
+         - already exists in target workspace, OR
+         - is included in the current deployment set (source folder + selected items filter)
     """
     with open(config_path, encoding="utf-8") as fh:
         cfg = yaml.safe_load(fh)
 
-    repo_dir = (config_path.parent / cfg["core"]["repository_directory"]).resolve()
+    repo_dir      = (config_path.parent / cfg["core"]["repository_directory"]).resolve()
     parameter_file = (config_path.parent / cfg["core"].get("parameter", "parameter.yml")).resolve()
     workspace_name = cfg["core"]["workspace"][environment]
-    item_types_in_scope = cfg["core"].get("item_types_in_scope", [])
+    item_types     = cfg["core"].get("item_types_in_scope", [])
 
-    errors = []
+    errors   = []
     warnings = []
 
     print(f"\n{'='*60}")
     print(f"Preflight Validation")
+    print(f"Mode             : {'Feature Release (' + ', '.join(items) + ')' if items else 'Full Deployment'}")
     print(f"Environment      : {environment}")
     print(f"Target Workspace : {workspace_name}")
     print(f"Source Directory : {repo_dir}")
     print(f"{'='*60}\n")
 
-    # ── Check 1: source directory exists ────────────────────────────────────
+    # ── Check 1: Target workspace is reachable ────────────────────────────────
+    print("[ 1 ] Checking target workspace accessibility...")
+    target_items_existing = set()
+    try:
+        _, existing_items = get_workspace_info(workspace_name, credential)
+        target_items_existing = {(i["type"], i["displayName"]) for i in existing_items}
+        print(f"      [OK] Workspace '{workspace_name}' is reachable "
+              f"({len(existing_items)} item(s) currently deployed)")
+    except RuntimeError as e:
+        errors.append(f"Cannot reach target workspace: {e}")
+        print(f"      [FAIL] {e}")
+
+    # ── Check 2: Source directory and item folder structure ───────────────────
+    print("\n[ 2 ] Checking source item folders...")
+    local_items = set()   # (type, name) pairs present in source folder
+
     if not repo_dir.exists():
         errors.append(f"Source directory not found: {repo_dir}")
+        print(f"      [FAIL] Source directory not found: {repo_dir}")
     else:
-        print(f"[OK] Source directory exists: {repo_dir}")
-
-        # ── Check 2: each in-scope item type has at least one folder ────────
-        for item_type in item_types_in_scope:
+        for item_type in item_types:
             suffix = f".{item_type}"
             matches = [d for d in repo_dir.iterdir() if d.is_dir() and d.name.endswith(suffix)]
             if not matches:
                 warnings.append(f"No '{item_type}' folders found in source directory")
-            else:
-                for m in matches:
-                    platform_file = m / ".platform"
-                    if not platform_file.exists():
-                        errors.append(f"Missing .platform file in: {m.name}")
-                    else:
-                        print(f"[OK] {m.name}")
+            for folder in matches:
+                item_name = folder.name[: -len(suffix)]
+                local_items.add((item_type, item_name))
+                platform_file = folder / ".platform"
+                if not platform_file.exists():
+                    errors.append(f"Missing .platform file in: {folder.name}")
+                    print(f"      [FAIL] Missing .platform in {folder.name}")
+                else:
+                    print(f"      [OK]   {folder.name}")
 
-    # ── Check 3: parameter.yml dependency resolution ─────────────────────────
+    # ── Check 3: Dependency resolution against TARGET workspace ───────────────
     refs = parse_parameter_item_refs(parameter_file)
     if refs:
-        print(f"\nChecking {len(refs)} parameter.yml item reference(s) against target workspace...")
-        try:
-            existing_items = get_workspace_items_from_api(workspace_name, credential)
-            existing = {(i["type"], i["displayName"]) for i in existing_items}
+        print(f"\n[ 3 ] Checking {len(refs)} parameter.yml dependency reference(s)...")
 
-            # Also include items present locally (they will be deployed)
-            local_items = set()
-            if repo_dir.exists():
-                for d in repo_dir.iterdir():
-                    if d.is_dir():
-                        parts = d.name.rsplit(".", 1)
-                        if len(parts) == 2:
-                            local_items.add((parts[1], parts[0]))
-
-            for ref in refs:
-                key = (ref["type"], ref["name"])
-                if key in existing:
-                    print(f"[OK] {ref['type']}.{ref['name']} exists in target workspace")
-                elif key in local_items:
-                    print(f"[OK] {ref['type']}.{ref['name']} will be deployed from source")
+        # Items that WILL be in the target workspace after this deployment:
+        #   a) already there, OR
+        #   b) in the source AND (full deploy OR included in selected items list)
+        def will_be_deployed(item_type: str, item_name: str) -> bool:
+            # Already exists in target workspace
+            if (item_type, item_name) in target_items_existing:
+                return True
+            # Present in source and will be deployed
+            if (item_type, item_name) in local_items:
+                if items is None:
+                    # Full deployment — all local items are deployed
+                    return True
                 else:
-                    errors.append(
-                        f"{ref['type']}.{ref['name']} is referenced in parameter.yml "
-                        f"but does not exist in '{workspace_name}' and is not in the source folder"
-                    )
-        except RuntimeError as e:
-            warnings.append(f"Could not check target workspace items: {e}")
+                    # Feature release — only selected items are deployed
+                    if item_name in items:
+                        return True
+            return False
 
-    # ── Summary ──────────────────────────────────────────────────────────────
+        for ref in refs:
+            t, n = ref["type"], ref["name"]
+            if (t, n) in target_items_existing:
+                print(f"      [OK]   {t}.{n} — already exists in target workspace")
+            elif (t, n) in local_items and (items is None or n in (items or [])):
+                print(f"      [OK]   {t}.{n} — will be deployed in this run")
+            elif (t, n) in local_items and items is not None and n not in items:
+                errors.append(
+                    f"{t}.{n} is referenced in parameter.yml, exists locally but is NOT "
+                    f"selected for this feature release and is NOT yet in '{workspace_name}'. "
+                    f"Either add '{n}' to the items list or deploy it separately first."
+                )
+                print(f"      [FAIL] {t}.{n} — exists locally but excluded from this release "
+                      f"and not yet in target workspace")
+            else:
+                errors.append(
+                    f"{t}.{n} is referenced in parameter.yml but does not exist "
+                    f"in '{workspace_name}' and is not in the source folder."
+                )
+                print(f"      [FAIL] {t}.{n} — not found in target workspace or source folder")
+    else:
+        print("\n[ 3 ] No parameter.yml dependency references found — skipping.")
+
+    # ── Summary ───────────────────────────────────────────────────────────────
     print()
-    if warnings:
-        for w in warnings:
-            print(f"[WARN] {w}")
+    for w in warnings:
+        print(f"[WARN] {w}")
 
     if errors:
         print()
         for e in errors:
             print(f"[FAIL] {e}")
-        print(f"\nPreflight FAILED — {len(errors)} error(s) found. Fix them before deploying.\n")
+        print(f"\nPreflight FAILED — {len(errors)} error(s). Fix before deploying.\n")
         return False
 
     print("Preflight PASSED — all checks OK.\n")
@@ -196,14 +222,12 @@ def deploy_workspace_items(
 
     credential = get_fabric_credential(use_cli=use_cli_auth)
 
-    # Always run preflight
-    ok = preflight_validate(config_path, environment, credential)
-    if not ok or validate_only:
-        if not ok:
-            sys.exit(1)
+    ok = preflight_validate(config_path, environment, credential, items=items)
+    if not ok:
+        sys.exit(1)
+    if validate_only:
         return
 
-    # Enable required feature flags
     append_feature_flag("enable_experimental_features")
     append_feature_flag("enable_config_deploy")
 
@@ -259,7 +283,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Validate dependencies only (no deployment)
+  # Validate only (no deployment)
   python deploy.py --environment TEST --cli-auth --validate
 
   # Full deployment to TEST
@@ -272,18 +296,14 @@ Examples:
   python deploy.py --environment PROD --cli-auth --items "PipelineA,SilverToGoldNotebook"
 """,
     )
-    parser.add_argument("--config", default="config.yml", help="Path to config.yml")
+    parser.add_argument("--config", default="config.yml")
     parser.add_argument(
         "--environment", choices=["DEV", "TEST", "PROD"], default="DEV",
-        help="Target environment (default: DEV)",
     )
-    parser.add_argument(
-        "--cli-auth", action="store_true",
-        help="Use Azure CLI / OIDC authentication (for CI/CD)",
-    )
+    parser.add_argument("--cli-auth", action="store_true")
     parser.add_argument(
         "--items", default="",
-        help="Comma-separated item names to deploy (feature release). Omit for all items.",
+        help="Comma-separated item names (feature release). Omit for all items.",
     )
     parser.add_argument(
         "--validate", action="store_true",
