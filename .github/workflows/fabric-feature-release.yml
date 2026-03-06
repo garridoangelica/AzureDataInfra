@@ -1,0 +1,105 @@
+name: Fabric - Feature Release (selective items)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - TEST
+          - PROD
+
+      items:
+        description: |
+          Comma-separated item names to deploy.
+          Example: OrchestrateSilverToGoldPipeline,SilverToGoldNotebook
+          Leave blank to deploy ALL in-scope items.
+        required: false
+        default: ''
+
+      dry_run:
+        description: 'Dry run — print what would be deployed without deploying'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  feature-release:
+    name: Feature Release → ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-latest
+    # Dynamically selects the GitHub Environment so each target has its own reviewers/secrets
+    environment: fabriccicd
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r Fabric/Fabric-CICD/requirements.txt
+
+      - name: Summarise release
+        run: |
+          echo "### Feature Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | ${{ github.event.inputs.environment }} |" >> $GITHUB_STEP_SUMMARY
+          ITEMS="${{ github.event.inputs.items }}"
+          if [ -z "$ITEMS" ]; then
+            echo "| Items | *(all in-scope)* |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Items | \`$ITEMS\` |" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "| Triggered by | @${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dry run | ${{ github.event.inputs.dry_run }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Dry run — show what would be deployed
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: |
+          echo "DRY RUN — items that would be deployed to ${{ github.event.inputs.environment }}:"
+          ITEMS="${{ github.event.inputs.items }}"
+          if [ -z "$ITEMS" ]; then
+            echo "  (all items in scope as defined in Fabric/Fabric-CICD/config.yml)"
+          else
+            echo "$ITEMS" | tr ',' '\n' | sed 's/^ *//;s/ *$//;s/^/  - /'
+          fi
+
+      - name: Azure Login (OIDC)
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy selected items
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          cd Fabric/Fabric-CICD
+          ITEMS="${{ github.event.inputs.items }}"
+
+          if [ -z "$ITEMS" ]; then
+            echo "No item filter supplied — deploying all in-scope items."
+            python deploy.py \
+              --config config.yml \
+              --environment ${{ github.event.inputs.environment }} \
+              --cli-auth
+          else
+            echo "Deploying selected items: $ITEMS"
+            python deploy.py \
+              --config config.yml \
+              --environment ${{ github.event.inputs.environment }} \
+              --cli-auth \
+              --items "$ITEMS"
+          fi

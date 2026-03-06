@@ -4,9 +4,9 @@
 core:
   # Environment-specific workspace names
   workspace:
-    DEV: "DataEngineering-Dev"
-    TEST: "DataEngineering-Test"
-    PROD: "DataEngineering-Prod"
+    DEV: "DataEngineeringWSDevCICD"
+    TEST: "DataEngineeringWSTestCICD"
+    PROD: "DataEngineeringWSProdCICD"
 
   # Path to workspace items (relative to this config file)
   repository_directory: "../Workspaces/DataEngineeringWSDevCICD"
