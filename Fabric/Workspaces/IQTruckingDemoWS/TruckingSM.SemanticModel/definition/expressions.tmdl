@@ -1,0 +1,11 @@
+expression 'DirectLake - lh_trucking' =
+		let
+		    Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/e106cbba-be3f-48b0-8595-99ff1c443526/ade6e587-47c5-45bf-b79f-6409ab4ea526", [HierarchicalNavigation=true])
+		in
+		    Source
+	lineageTag: 91f7efde-8770-480b-b4a6-0c698a07df2c
+
+	annotation PBI_IncludeFutureArtifacts = False
+
+	annotation PBI_RemovedChildren = [{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[maintenance_events]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[service_tickets]"}},"objectType":"Table"},{"remoteItemId":{"analysisServicesObject":{"sourceName":null,"sourceLineageTag":"[dbo].[driver_hos_logs]"}},"objectType":"Table"}]
+
