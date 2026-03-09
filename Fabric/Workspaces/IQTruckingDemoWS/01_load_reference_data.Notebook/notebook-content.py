@@ -1,5 +1,12 @@
 # Fabric notebook source
 
+# METADATA ********************
+
+# META {
+# META   "kernel_info": {
+# META     "name": "synapse_pyspark"
+# META   }
+# META }
 
 # MARKDOWN ********************
 
@@ -25,6 +32,13 @@ WORKSPACE_NAME       = ""
 REFERENCE_DATA_PATH  = f"Files/reference_data"  # overridden by caller
 LAKEHOUSE_ID =""
 WORKSPACE_ID= ""
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # MARKDOWN ********************
 
@@ -191,22 +205,22 @@ SCHEMAS = {
         StructField("cost_usd", DoubleType(), True),
     ]),
 
-    "driver_hos_logs": StructType([
-        StructField("hos_log_id", StringType(), False),
-        StructField("driver_id", StringType(), False),
-        StructField("trip_id", StringType(), True),
-        StructField("duty_status", StringType(), False),
-        StructField("start_time", StringType(), True),
-        StructField("end_time", StringType(), True),
-        StructField("start_latitude", DoubleType(), True),
-        StructField("start_longitude", DoubleType(), True),
-        StructField("start_odometer", IntegerType(), True),
-        StructField("driving_hours_used", DoubleType(), True),
-        StructField("duty_hours_used", DoubleType(), True),
-        StructField("cycle_hours_used", DoubleType(), True),
-        StructField("driving_hours_remaining", DoubleType(), True),
-        StructField("duty_hours_remaining", DoubleType(), True),
-    ]),
+    # "driver_hos_logs": StructType([
+    #     StructField("hos_log_id", StringType(), False),
+    #     StructField("driver_id", StringType(), False),
+    #     StructField("trip_id", StringType(), True),
+    #     StructField("duty_status", StringType(), False),
+    #     StructField("start_time", StringType(), True),
+    #     StructField("end_time", StringType(), True),
+    #     StructField("start_latitude", DoubleType(), True),
+    #     StructField("start_longitude", DoubleType(), True),
+    #     StructField("start_odometer", IntegerType(), True),
+    #     StructField("driving_hours_used", DoubleType(), True),
+    #     StructField("duty_hours_used", DoubleType(), True),
+    #     StructField("cycle_hours_used", DoubleType(), True),
+    #     StructField("driving_hours_remaining", DoubleType(), True),
+    #     StructField("duty_hours_remaining", DoubleType(), True),
+    # ]),
 }
 
 # Primary key column for each table
@@ -221,8 +235,15 @@ PRIMARY_KEYS = {
     "trips": "trip_id",
     "maintenance_events": "maintenance_event_id",
     "service_tickets": "service_ticket_id",
-    "driver_hos_logs": "hos_log_id",
+    # "driver_hos_logs": "hos_log_id",
 }
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # MARKDOWN ********************
 
@@ -242,7 +263,7 @@ LOAD_ORDER = [
     "trips",
     "maintenance_events",
     "service_tickets",
-    "driver_hos_logs",
+    # "driver_hos_logs",
 ]
 
 results = []
@@ -277,6 +298,13 @@ for table_name in LOAD_ORDER:
         results.append({"table": table_name, "rows": 0, "pk": pk, "status": f"✗ {str(e)[:80]}"})
         print(f"  ✗ {table_name}: FAILED — {e}")
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # MARKDOWN ********************
 
 # ## Summary
@@ -287,6 +315,13 @@ for table_name in LOAD_ORDER:
 
 # summary_df = spark.createDataFrame([Row(**r) for r in results])
 # display(summary_df)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # MARKDOWN ********************
 
@@ -305,6 +340,13 @@ for table_name in LOAD_ORDER:
 #     except Exception as e:
 #         print(f"  {table_name:<25} ERROR: {e}")
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 # # Display sample records from key tables
@@ -313,3 +355,10 @@ for table_name in LOAD_ORDER:
 #     print(f"SAMPLE: {table_name} (first 3 rows)")
 #     print("=" * 60)
 #     display(spark.table(f"`{WORKSPACE_NAME}`.{LAKEHOUSE_NAME}.{table_name}").limit(3))
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
