@@ -1,0 +1,90 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "74e3e8b5-9761-4394-8441-c7d70eb1de12",
+  "dataBindingConfiguration": {
+    "dataBindingType": "TimeSeries",
+    "timestampColumnName": "timestamp",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "event_id",
+        "targetPropertyId": "5789053002689497708"
+      },
+      {
+        "sourceColumnName": "event_type",
+        "targetPropertyId": "5789052999116844608"
+      },
+      {
+        "sourceColumnName": "timestamp",
+        "targetPropertyId": "5789052997775757004"
+      },
+      {
+        "sourceColumnName": "source",
+        "targetPropertyId": "5789052995677442840"
+      },
+      {
+        "sourceColumnName": "driver_id",
+        "targetPropertyId": "388259366204435"
+      },
+      {
+        "sourceColumnName": "trip_id",
+        "targetPropertyId": "5789052995810050249"
+      },
+      {
+        "sourceColumnName": "truck_id",
+        "targetPropertyId": "5789052995403299609"
+      },
+      {
+        "sourceColumnName": "previous_status",
+        "targetPropertyId": "5789052995910738445"
+      },
+      {
+        "sourceColumnName": "new_status",
+        "targetPropertyId": "5789052997268941826"
+      },
+      {
+        "sourceColumnName": "driving_hours_used",
+        "targetPropertyId": "5789052996876051843"
+      },
+      {
+        "sourceColumnName": "driving_hours_remaining",
+        "targetPropertyId": "5789052998546359416"
+      },
+      {
+        "sourceColumnName": "duty_hours_used",
+        "targetPropertyId": "5789052998942056447"
+      },
+      {
+        "sourceColumnName": "duty_hours_remaining",
+        "targetPropertyId": "5789052996781710646"
+      },
+      {
+        "sourceColumnName": "cycle_hours_used",
+        "targetPropertyId": "5789052997102602800"
+      },
+      {
+        "sourceColumnName": "cycle_hours_remaining",
+        "targetPropertyId": "5789052998625821664"
+      },
+      {
+        "sourceColumnName": "break_time_remaining_minutes",
+        "targetPropertyId": "5789052998193040955"
+      },
+      {
+        "sourceColumnName": "latitude",
+        "targetPropertyId": "5789052995975104498"
+      },
+      {
+        "sourceColumnName": "longitude",
+        "targetPropertyId": "5789052995795075006"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "KustoTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "011283f2-4d6d-9b32-4521-4088d193f518",
+      "clusterUri": "https://trd-u86ba389dj0kuq9k9v.z7.kusto.fabric.microsoft.com",
+      "databaseName": "trucking_db",
+      "sourceTableName": "HOSStatusChangeEvent"
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "6828544a-61be-4eee-a1ba-e79bef67b159",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "trip_id",
+        "targetPropertyId": "678812434302673"
+      },
+      {
+        "sourceColumnName": "trip_number",
+        "targetPropertyId": "632905767329715"
+      },
+      {
+        "sourceColumnName": "driver_id",
+        "targetPropertyId": "807166215460393"
+      },
+      {
+        "sourceColumnName": "truck_id",
+        "targetPropertyId": "790623938667401"
+      },
+      {
+        "sourceColumnName": "trailer_id",
+        "targetPropertyId": "473337073916150"
+      },
+      {
+        "sourceColumnName": "load_id",
+        "targetPropertyId": "506763410660320"
+      },
+      {
+        "sourceColumnName": "route_id",
+        "targetPropertyId": "314217315904940"
+      },
+      {
+        "sourceColumnName": "status",
+        "targetPropertyId": "979744918857099"
+      },
+      {
+        "sourceColumnName": "scheduled_departure",
+        "targetPropertyId": "855337742563103"
+      },
+      {
+        "sourceColumnName": "scheduled_arrival",
+        "targetPropertyId": "180760727206845"
+      },
+      {
+        "sourceColumnName": "actual_departure",
+        "targetPropertyId": "476820950373242"
+      },
+      {
+        "sourceColumnName": "actual_arrival",
+        "targetPropertyId": "313855469140086"
+      },
+      {
+        "sourceColumnName": "current_latitude",
+        "targetPropertyId": "243421506867504"
+      },
+      {
+        "sourceColumnName": "current_longitude",
+        "targetPropertyId": "860620340656739"
+      },
+      {
+        "sourceColumnName": "odometer_start",
+        "targetPropertyId": "116076504424313"
+      },
+      {
+        "sourceColumnName": "odometer_end",
+        "targetPropertyId": "428757666185489"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+      "sourceTableName": "trips",
+      "sourceSchema": null
+    }
+  }
+}

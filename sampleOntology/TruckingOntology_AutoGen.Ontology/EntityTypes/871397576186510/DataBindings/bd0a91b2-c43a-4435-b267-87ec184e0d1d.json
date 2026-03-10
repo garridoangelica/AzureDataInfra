@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "bd0a91b2-c43a-4435-b267-87ec184e0d1d",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "load_id",
+        "targetPropertyId": "964000729943857"
+      },
+      {
+        "sourceColumnName": "load_number",
+        "targetPropertyId": "976572756344568"
+      },
+      {
+        "sourceColumnName": "customer_id",
+        "targetPropertyId": "428981039942352"
+      },
+      {
+        "sourceColumnName": "load_type",
+        "targetPropertyId": "511492416755513"
+      },
+      {
+        "sourceColumnName": "description",
+        "targetPropertyId": "940127394285359"
+      },
+      {
+        "sourceColumnName": "weight_lbs",
+        "targetPropertyId": "184130382509121"
+      },
+      {
+        "sourceColumnName": "required_trailer_type",
+        "targetPropertyId": "401000484126216"
+      },
+      {
+        "sourceColumnName": "pickup_terminal_id",
+        "targetPropertyId": "755549344321710"
+      },
+      {
+        "sourceColumnName": "delivery_terminal_id",
+        "targetPropertyId": "791176344877189"
+      },
+      {
+        "sourceColumnName": "pickup_window_start",
+        "targetPropertyId": "770606327769161"
+      },
+      {
+        "sourceColumnName": "pickup_window_end",
+        "targetPropertyId": "81391686170027"
+      },
+      {
+        "sourceColumnName": "delivery_window_start",
+        "targetPropertyId": "715921397453427"
+      },
+      {
+        "sourceColumnName": "delivery_window_end",
+        "targetPropertyId": "602386350788097"
+      },
+      {
+        "sourceColumnName": "status",
+        "targetPropertyId": "276632657796564"
+      },
+      {
+        "sourceColumnName": "priority",
+        "targetPropertyId": "521456248803055"
+      },
+      {
+        "sourceColumnName": "value_usd",
+        "targetPropertyId": "304934990450167"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+      "sourceTableName": "loads",
+      "sourceSchema": null
+    }
+  }
+}

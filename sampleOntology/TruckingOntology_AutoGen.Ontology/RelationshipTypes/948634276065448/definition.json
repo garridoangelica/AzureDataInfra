@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/relationshipType/1.0.0/schema.json",
+  "namespace": "usertypes",
+  "id": "948634276065448",
+  "name": "RouteOriginTerminal",
+  "namespaceType": "Custom",
+  "source": {
+    "entityTypeId": "775801964074536"
+  },
+  "target": {
+    "entityTypeId": "240394238675671"
+  }
+}

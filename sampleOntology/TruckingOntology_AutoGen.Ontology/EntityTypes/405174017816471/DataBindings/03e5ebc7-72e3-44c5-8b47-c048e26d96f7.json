@@ -1,0 +1,68 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "03e5ebc7-72e3-44c5-8b47-c048e26d96f7",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "driver_id",
+        "targetPropertyId": "388259366204435"
+      },
+      {
+        "sourceColumnName": "employee_id",
+        "targetPropertyId": "298824215222787"
+      },
+      {
+        "sourceColumnName": "first_name",
+        "targetPropertyId": "49923144091007"
+      },
+      {
+        "sourceColumnName": "last_name",
+        "targetPropertyId": "518267520467920"
+      },
+      {
+        "sourceColumnName": "cdl_number",
+        "targetPropertyId": "141542222941829"
+      },
+      {
+        "sourceColumnName": "cdl_state",
+        "targetPropertyId": "89718470258963"
+      },
+      {
+        "sourceColumnName": "cdl_expiration_date",
+        "targetPropertyId": "331087787563249"
+      },
+      {
+        "sourceColumnName": "hire_date",
+        "targetPropertyId": "708788402842930"
+      },
+      {
+        "sourceColumnName": "status",
+        "targetPropertyId": "997928990433146"
+      },
+      {
+        "sourceColumnName": "home_terminal_id",
+        "targetPropertyId": "408166600663745"
+      },
+      {
+        "sourceColumnName": "phone",
+        "targetPropertyId": "217498896198079"
+      },
+      {
+        "sourceColumnName": "email",
+        "targetPropertyId": "79313164820976"
+      },
+      {
+        "sourceColumnName": "supervisor_email",
+        "targetPropertyId": "745515597706649"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+      "sourceTableName": "drivers",
+      "sourceSchema": null
+    }
+  }
+}

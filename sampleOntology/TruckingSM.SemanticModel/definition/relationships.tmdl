@@ -1,0 +1,33 @@
+relationship 44634c8c-cae4-1d99-2a63-8b90e30a653b
+	fromColumn: routes.destination_terminal_id
+	toColumn: terminals.terminal_id
+
+relationship 64476d95-3d42-a7ac-9365-c50ace3cdfca
+	isActive: false
+	fromColumn: routes.origin_terminal_id
+	toColumn: terminals.terminal_id
+
+relationship cf3d12b9-198a-10a2-f0f7-6ba3c0d45c17
+	fromColumn: trips.route_id
+	toColumn: routes.route_id
+
+relationship a5a3733c-f341-c2dc-8116-78d71d6c0629
+	fromColumn: trips.truck_id
+	toColumn: trucks.truck_id
+
+relationship 8d391169-369e-2868-bf21-41f6670d840a
+	fromColumn: trips.load_id
+	toColumn: loads.load_id
+
+relationship 72147d32-2257-2fd4-dc0e-bcb7968d7727
+	fromColumn: trips.trailer_id
+	toColumn: trailers.trailer_id
+
+relationship 649b58f4-22f8-9fb0-e440-59ac56cd91d0
+	fromColumn: trips.driver_id
+	toColumn: drivers.driver_id
+
+relationship b14971cf-e7ff-a48b-5765-2d8869e02fb8
+	fromColumn: loads.customer_id
+	toColumn: customers.customer_id
+

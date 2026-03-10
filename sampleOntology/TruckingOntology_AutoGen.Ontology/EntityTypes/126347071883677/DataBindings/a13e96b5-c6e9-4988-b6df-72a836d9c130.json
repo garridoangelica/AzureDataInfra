@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "a13e96b5-c6e9-4988-b6df-72a836d9c130",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "customer_id",
+        "targetPropertyId": "835911684991697"
+      },
+      {
+        "sourceColumnName": "name",
+        "targetPropertyId": "276720901775959"
+      },
+      {
+        "sourceColumnName": "contact_name",
+        "targetPropertyId": "158106567403230"
+      },
+      {
+        "sourceColumnName": "contact_email",
+        "targetPropertyId": "116400344428713"
+      },
+      {
+        "sourceColumnName": "contact_phone",
+        "targetPropertyId": "834918051560813"
+      },
+      {
+        "sourceColumnName": "address",
+        "targetPropertyId": "615029536387408"
+      },
+      {
+        "sourceColumnName": "city",
+        "targetPropertyId": "665835541016450"
+      },
+      {
+        "sourceColumnName": "state",
+        "targetPropertyId": "36783184683417"
+      },
+      {
+        "sourceColumnName": "industry",
+        "targetPropertyId": "106488819735150"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+      "sourceTableName": "customers",
+      "sourceSchema": null
+    }
+  }
+}

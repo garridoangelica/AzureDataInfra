@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "f8bff6b3-1de3-40a3-ad09-6b28f80c1d68",
+  "dataBindingConfiguration": {
+    "dataBindingType": "TimeSeries",
+    "timestampColumnName": "timestamp",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "event_id",
+        "targetPropertyId": "5787730411091754406"
+      },
+      {
+        "sourceColumnName": "event_type",
+        "targetPropertyId": "5787730410448192422"
+      },
+      {
+        "sourceColumnName": "timestamp",
+        "targetPropertyId": "5787730408704474203"
+      },
+      {
+        "sourceColumnName": "source",
+        "targetPropertyId": "5787730410730284548"
+      },
+      {
+        "sourceColumnName": "load_id",
+        "targetPropertyId": "964000729943857"
+      },
+      {
+        "sourceColumnName": "trip_id",
+        "targetPropertyId": "5787730407341800937"
+      },
+      {
+        "sourceColumnName": "customer_id",
+        "targetPropertyId": "428981039942352"
+      },
+      {
+        "sourceColumnName": "load_number",
+        "targetPropertyId": "976572756344568"
+      },
+      {
+        "sourceColumnName": "previous_status",
+        "targetPropertyId": "5787730409802042064"
+      },
+      {
+        "sourceColumnName": "new_status",
+        "targetPropertyId": "5787730411289832365"
+      },
+      {
+        "sourceColumnName": "terminal_id",
+        "targetPropertyId": "5787730409132233173"
+      },
+      {
+        "sourceColumnName": "latitude",
+        "targetPropertyId": "5787730410877178115"
+      },
+      {
+        "sourceColumnName": "longitude",
+        "targetPropertyId": "5787730408881911663"
+      },
+      {
+        "sourceColumnName": "estimated_arrival",
+        "targetPropertyId": "5787730410702405417"
+      },
+      {
+        "sourceColumnName": "notes",
+        "targetPropertyId": "5787730409719512919"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "KustoTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "011283f2-4d6d-9b32-4521-4088d193f518",
+      "clusterUri": "https://trd-u86ba389dj0kuq9k9v.z7.kusto.fabric.microsoft.com",
+      "databaseName": "trucking_db",
+      "sourceTableName": "LoadStatusEvent"
+    }
+  }
+}

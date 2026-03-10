@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/relationshipType/1.0.0/schema.json",
+  "namespace": "usertypes",
+  "id": "120807737461359",
+  "name": "TruckMakesTrip",
+  "namespaceType": "Custom",
+  "source": {
+    "entityTypeId": "671909890415906"
+  },
+  "target": {
+    "entityTypeId": "262950994425995"
+  }
+}

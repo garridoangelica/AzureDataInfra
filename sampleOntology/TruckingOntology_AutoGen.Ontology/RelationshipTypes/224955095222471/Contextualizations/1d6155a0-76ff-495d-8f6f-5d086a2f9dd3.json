@@ -1,0 +1,23 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/contextualization/1.0.0/schema.json",
+  "id": "1d6155a0-76ff-495d-8f6f-5d086a2f9dd3",
+  "dataBindingTable": {
+    "workspaceId": "00000000-0000-0000-0000-000000000000",
+    "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+    "sourceTableName": "loads",
+    "sourceSchema": null,
+    "sourceType": "LakehouseTable"
+  },
+  "sourceKeyRefBindings": [
+    {
+      "sourceColumnName": "load_id",
+      "targetPropertyId": "964000729943857"
+    }
+  ],
+  "targetKeyRefBindings": [
+    {
+      "sourceColumnName": "customer_id",
+      "targetPropertyId": "835911684991697"
+    }
+  ]
+}

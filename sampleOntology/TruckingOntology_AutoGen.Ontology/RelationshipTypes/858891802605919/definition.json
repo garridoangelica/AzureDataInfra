@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/relationshipType/1.0.0/schema.json",
+  "namespace": "usertypes",
+  "id": "858891802605919",
+  "name": "TripHasDriver",
+  "namespaceType": "Custom",
+  "source": {
+    "entityTypeId": "262950994425995"
+  },
+  "target": {
+    "entityTypeId": "405174017816471"
+  }
+}

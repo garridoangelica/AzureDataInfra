@@ -1,0 +1,86 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/entityType/1.0.0/schema.json",
+  "id": "775801964074536",
+  "namespace": "usertypes",
+  "baseEntityTypeId": null,
+  "name": "Route",
+  "entityIdParts": [
+    "248263659311673"
+  ],
+  "displayNamePropertyId": "366109520294191",
+  "namespaceType": "Custom",
+  "visibility": "Visible",
+  "properties": [
+    {
+      "id": "248263659311673",
+      "name": "route_id",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "String"
+    },
+    {
+      "id": "366109520294191",
+      "name": "route_name",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "String"
+    },
+    {
+      "id": "866044393174181",
+      "name": "origin_terminal_id",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "String"
+    },
+    {
+      "id": "63980438355513",
+      "name": "destination_terminal_id",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "String"
+    },
+    {
+      "id": "926265788331257",
+      "name": "distance_miles",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "Double"
+    },
+    {
+      "id": "907397151115427",
+      "name": "estimated_hours",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "Double"
+    },
+    {
+      "id": "452668705642492",
+      "name": "estimated_hours_with_stops",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "Double"
+    },
+    {
+      "id": "75518832523934",
+      "name": "waypoints",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "String"
+    },
+    {
+      "id": "639588377270244",
+      "name": "toll_cost_estimate",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "Double"
+    },
+    {
+      "id": "809299429208302",
+      "name": "fuel_stops_recommended",
+      "redefines": null,
+      "baseTypeNamespaceType": null,
+      "valueType": "BigInt"
+    }
+  ],
+  "timeseriesProperties": []
+}

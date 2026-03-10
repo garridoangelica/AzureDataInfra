@@ -1,0 +1,90 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "39f8a201-e275-4dde-95ce-b061df928675",
+  "dataBindingConfiguration": {
+    "dataBindingType": "TimeSeries",
+    "timestampColumnName": "timestamp",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "event_id",
+        "targetPropertyId": "5790334755376991900"
+      },
+      {
+        "sourceColumnName": "event_type",
+        "targetPropertyId": "5790334751325732864"
+      },
+      {
+        "sourceColumnName": "timestamp",
+        "targetPropertyId": "5790334752164572116"
+      },
+      {
+        "sourceColumnName": "source",
+        "targetPropertyId": "5790334751613397263"
+      },
+      {
+        "sourceColumnName": "truck_id",
+        "targetPropertyId": "790623938667401"
+      },
+      {
+        "sourceColumnName": "trip_id",
+        "targetPropertyId": "678812434302673"
+      },
+      {
+        "sourceColumnName": "driver_id",
+        "targetPropertyId": "807166215460393"
+      },
+      {
+        "sourceColumnName": "latitude",
+        "targetPropertyId": "5790334751962079702"
+      },
+      {
+        "sourceColumnName": "longitude",
+        "targetPropertyId": "5790334753376908283"
+      },
+      {
+        "sourceColumnName": "speed_mph",
+        "targetPropertyId": "5790334754662683818"
+      },
+      {
+        "sourceColumnName": "heading_degrees",
+        "targetPropertyId": "5790334751582773253"
+      },
+      {
+        "sourceColumnName": "fuel_pct",
+        "targetPropertyId": "5790334754423234124"
+      },
+      {
+        "sourceColumnName": "engine_temp_f",
+        "targetPropertyId": "5790334751129364950"
+      },
+      {
+        "sourceColumnName": "oil_pressure_psi",
+        "targetPropertyId": "5790334753363146498"
+      },
+      {
+        "sourceColumnName": "odometer_miles",
+        "targetPropertyId": "5790334751720854761"
+      },
+      {
+        "sourceColumnName": "engine_rpm",
+        "targetPropertyId": "5790334754893766807"
+      },
+      {
+        "sourceColumnName": "ambient_temp_f",
+        "targetPropertyId": "5790334754972386905"
+      },
+      {
+        "sourceColumnName": "def_level_pct",
+        "targetPropertyId": "5790334754741376314"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "KustoTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "011283f2-4d6d-9b32-4521-4088d193f518",
+      "clusterUri": "https://trd-u86ba389dj0kuq9k9v.z7.kusto.fabric.microsoft.com",
+      "databaseName": "trucking_db",
+      "sourceTableName": "TelemetryEvent"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "5e03f3cb-01ab-44ba-aab7-e6204ae729f9",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "truck_id",
+        "targetPropertyId": "527979585658777"
+      },
+      {
+        "sourceColumnName": "truck_number",
+        "targetPropertyId": "284066387138985"
+      },
+      {
+        "sourceColumnName": "vin",
+        "targetPropertyId": "623877507884985"
+      },
+      {
+        "sourceColumnName": "make",
+        "targetPropertyId": "766930157140880"
+      },
+      {
+        "sourceColumnName": "model",
+        "targetPropertyId": "129976668408249"
+      },
+      {
+        "sourceColumnName": "year",
+        "targetPropertyId": "997181937525271"
+      },
+      {
+        "sourceColumnName": "odometer_miles",
+        "targetPropertyId": "846415078880052"
+      },
+      {
+        "sourceColumnName": "fuel_capacity_gallons",
+        "targetPropertyId": "866364041705416"
+      },
+      {
+        "sourceColumnName": "status",
+        "targetPropertyId": "384002166563475"
+      },
+      {
+        "sourceColumnName": "home_terminal_id",
+        "targetPropertyId": "331450967899881"
+      },
+      {
+        "sourceColumnName": "next_maintenance_miles",
+        "targetPropertyId": "179071211394714"
+      },
+      {
+        "sourceColumnName": "next_maintenance_type",
+        "targetPropertyId": "4652670930083"
+      },
+      {
+        "sourceColumnName": "last_dot_inspection_date",
+        "targetPropertyId": "814007046002636"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+      "sourceTableName": "trucks",
+      "sourceSchema": null
+    }
+  }
+}

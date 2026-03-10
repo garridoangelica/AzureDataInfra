@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "66045f15-a40f-4f21-a4f0-6fa4aa270348",
+  "dataBindingConfiguration": {
+    "dataBindingType": "TimeSeries",
+    "timestampColumnName": "timestamp",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "event_id",
+        "targetPropertyId": "5786796336571022256"
+      },
+      {
+        "sourceColumnName": "event_type",
+        "targetPropertyId": "5786796337255256968"
+      },
+      {
+        "sourceColumnName": "timestamp",
+        "targetPropertyId": "5786796333965295447"
+      },
+      {
+        "sourceColumnName": "source",
+        "targetPropertyId": "5786796334145408058"
+      },
+      {
+        "sourceColumnName": "truck_id",
+        "targetPropertyId": "527979585658777"
+      },
+      {
+        "sourceColumnName": "trip_id",
+        "targetPropertyId": "5786796333897380019"
+      },
+      {
+        "sourceColumnName": "driver_id",
+        "targetPropertyId": "5786796334692223399"
+      },
+      {
+        "sourceColumnName": "spn",
+        "targetPropertyId": "5786796335886806775"
+      },
+      {
+        "sourceColumnName": "fmi",
+        "targetPropertyId": "5786796333781824087"
+      },
+      {
+        "sourceColumnName": "fault_description",
+        "targetPropertyId": "5786796333417538490"
+      },
+      {
+        "sourceColumnName": "severity",
+        "targetPropertyId": "5786796337049782672"
+      },
+      {
+        "sourceColumnName": "occurrence_count",
+        "targetPropertyId": "5786796337632952988"
+      },
+      {
+        "sourceColumnName": "latitude",
+        "targetPropertyId": "5786796336599714464"
+      },
+      {
+        "sourceColumnName": "longitude",
+        "targetPropertyId": "5786796335912819061"
+      },
+      {
+        "sourceColumnName": "action",
+        "targetPropertyId": "5786796336969441769"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "KustoTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "011283f2-4d6d-9b32-4521-4088d193f518",
+      "clusterUri": "https://trd-u86ba389dj0kuq9k9v.z7.kusto.fabric.microsoft.com",
+      "databaseName": "trucking_db",
+      "sourceTableName": "EngineFaultEvent"
+    }
+  }
+}

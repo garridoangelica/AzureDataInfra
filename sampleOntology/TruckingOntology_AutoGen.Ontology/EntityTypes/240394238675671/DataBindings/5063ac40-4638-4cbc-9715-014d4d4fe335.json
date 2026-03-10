@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "5063ac40-4638-4cbc-9715-014d4d4fe335",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "terminal_id",
+        "targetPropertyId": "563085185115157"
+      },
+      {
+        "sourceColumnName": "name",
+        "targetPropertyId": "997064744710608"
+      },
+      {
+        "sourceColumnName": "city",
+        "targetPropertyId": "724787521706597"
+      },
+      {
+        "sourceColumnName": "state",
+        "targetPropertyId": "161857085923497"
+      },
+      {
+        "sourceColumnName": "latitude",
+        "targetPropertyId": "158209825587166"
+      },
+      {
+        "sourceColumnName": "longitude",
+        "targetPropertyId": "839782402362104"
+      },
+      {
+        "sourceColumnName": "timezone",
+        "targetPropertyId": "607834045342331"
+      },
+      {
+        "sourceColumnName": "capacity_trucks",
+        "targetPropertyId": "842063099205820"
+      },
+      {
+        "sourceColumnName": "has_maintenance_bay",
+        "targetPropertyId": "483374582758777"
+      },
+      {
+        "sourceColumnName": "address",
+        "targetPropertyId": "658000708421749"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "00000000-0000-0000-0000-000000000000",
+      "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+      "sourceTableName": "terminals",
+      "sourceSchema": null
+    }
+  }
+}

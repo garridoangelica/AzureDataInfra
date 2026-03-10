@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/relationshipType/1.0.0/schema.json",
+  "namespace": "usertypes",
+  "id": "811287996855789",
+  "name": "TripCarriesLoad",
+  "namespaceType": "Custom",
+  "source": {
+    "entityTypeId": "262950994425995"
+  },
+  "target": {
+    "entityTypeId": "871397576186510"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataAgent",
+    "displayName": "TruckingAgent"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "06ca77be-66b1-ac02-4ccc-44b1006ea202"
+  }
+}

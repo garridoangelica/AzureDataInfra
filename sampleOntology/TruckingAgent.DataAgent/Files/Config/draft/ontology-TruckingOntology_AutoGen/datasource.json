@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/dataAgent/definition/dataSource/1.0.0/schema.json",
+  "artifactId": "64e69149-4bb9-99cb-4cd0-807a5b82ed3f",
+  "workspaceId": "00000000-0000-0000-0000-000000000000",
+  "dataSourceInstructions": null,
+  "displayName": "TruckingOntology_AutoGen",
+  "type": "ontology",
+  "userDescription": null,
+  "metadata": {},
+  "elements": [
+    {
+      "id": "Customer",
+      "is_selected": true,
+      "display_name": "Customer",
+      "type": "ontology.entity",
+      "description": "customer_id,name,contact_name,contact_email,contact_phone,address,city,state,industry",
+      "children": []
+    },
+    {
+      "id": "Trip",
+      "is_selected": true,
+      "display_name": "Trip",
+      "type": "ontology.entity",
+      "description": "trip_id,event_id,trip_number,event_type,driver_id,timestamp,truck_id,source,trailer_id,latitude,load_id,longitude,route_id,speed_mph,status,heading_degrees,scheduled_departure,fuel_pct,scheduled_arrival,engine_temp_f,actual_departure,oil_pressure_psi,actual_arrival,odometer_miles,current_latitude,engine_rpm,current_longitude,ambient_temp_f,odometer_start,def_level_pct,odometer_end",
+      "children": []
+    },
+    {
+      "id": "Driver",
+      "is_selected": true,
+      "display_name": "Driver",
+      "type": "ontology.entity",
+      "description": "driver_id,event_id,employee_id,event_type,first_name,timestamp,last_name,source,cdl_number,trip_id,cdl_state,truck_id,cdl_expiration_date,previous_status,hire_date,new_status,status,driving_hours_used,home_terminal_id,driving_hours_remaining,phone,duty_hours_used,email,duty_hours_remaining,supervisor_email,cycle_hours_used,cycle_hours_remaining,break_time_remaining_minutes,latitude,longitude",
+      "children": []
+    },
+    {
+      "id": "Load",
+      "is_selected": true,
+      "display_name": "Load",
+      "type": "ontology.entity",
+      "description": "load_id,event_id,load_number,event_type,customer_id,timestamp,load_type,source,description,trip_id,weight_lbs,previous_status,required_trailer_type,new_status,pickup_terminal_id,terminal_id,delivery_terminal_id,latitude,pickup_window_start,longitude,pickup_window_end,estimated_arrival,delivery_window_start,notes,delivery_window_end,status,priority,value_usd",
+      "children": []
+    },
+    {
+      "id": "Route",
+      "is_selected": true,
+      "display_name": "Route",
+      "type": "ontology.entity",
+      "description": "route_id,route_name,origin_terminal_id,destination_terminal_id,distance_miles,estimated_hours,estimated_hours_with_stops,waypoints,toll_cost_estimate,fuel_stops_recommended",
+      "children": []
+    },
+    {
+      "id": "Terminal",
+      "is_selected": true,
+      "display_name": "Terminal",
+      "type": "ontology.entity",
+      "description": "terminal_id,name,city,state,latitude,longitude,timezone,capacity_trucks,has_maintenance_bay,address",
+      "children": []
+    },
+    {
+      "id": "Trailer",
+      "is_selected": true,
+      "display_name": "Trailer",
+      "type": "ontology.entity",
+      "description": "trailer_id,trailer_number,type,length_ft,max_weight_lbs,status,home_terminal_id,year,last_inspection_date",
+      "children": []
+    },
+    {
+      "id": "Truck",
+      "is_selected": true,
+      "display_name": "Truck",
+      "type": "ontology.entity",
+      "description": "truck_id,event_id,truck_number,event_type,vin,timestamp,make,source,model,trip_id,year,driver_id,odometer_miles,spn,fuel_capacity_gallons,fmi,status,fault_description,home_terminal_id,severity,next_maintenance_miles,occurrence_count,next_maintenance_type,latitude,last_dot_inspection_date,longitude,action",
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/contextualization/1.0.0/schema.json",
+  "id": "e825e938-65c0-4733-8469-b9edc3e29ec6",
+  "dataBindingTable": {
+    "workspaceId": "00000000-0000-0000-0000-000000000000",
+    "itemId": "80deb823-8e7e-af3a-4f66-1c7de1b42845",
+    "sourceTableName": "trips",
+    "sourceSchema": null,
+    "sourceType": "LakehouseTable"
+  },
+  "sourceKeyRefBindings": [
+    {
+      "sourceColumnName": "truck_id",
+      "targetPropertyId": "527979585658777"
+    }
+  ],
+  "targetKeyRefBindings": [
+    {
+      "sourceColumnName": "trip_id",
+      "targetPropertyId": "678812434302673"
+    }
+  ]
+}

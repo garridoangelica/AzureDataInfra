@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "KQLDatabase",
+    "displayName": "eh_trucking",
+    "description": "eh_trucking"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7952c908-4944-a9be-4ddd-e9f11a3ca194"
+  }
+}
