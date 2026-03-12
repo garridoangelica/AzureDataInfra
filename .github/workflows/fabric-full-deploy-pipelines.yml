@@ -1,11 +1,11 @@
 name: Fabric - Full Deployment via Deployment Pipeline (Dev → Test → Prod)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'Fabric/Workspaces/DataEngineeringWSDevCICD/**'
-      - 'Fabric/Fabric-CICD/**'
+#   push:
+#     branches: [main]
+#     paths:
+#       - 'Fabric/Workspaces/DataEngineeringReporting/**'
+#       - 'Fabric/Fabric-CICD/**'
   workflow_dispatch:
     inputs:
       target:
