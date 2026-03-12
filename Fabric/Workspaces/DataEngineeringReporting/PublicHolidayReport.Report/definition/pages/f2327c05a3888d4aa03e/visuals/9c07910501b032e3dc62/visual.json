@@ -1,0 +1,196 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "9c07910501b032e3dc62",
+  "position": {
+    "x": 9.72644376899696,
+    "y": 0,
+    "z": 0,
+    "height": 280.1215805471125,
+    "width": 1184.6808510638298,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "publicholidays"
+                    }
+                  },
+                  "Property": "countryOrRegion"
+                }
+              },
+              "queryRef": "publicholidays.countryOrRegion",
+              "nativeQueryRef": "countryOrRegion"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "publicholidays"
+                    }
+                  },
+                  "Property": "holidayName"
+                }
+              },
+              "queryRef": "publicholidays.holidayName",
+              "nativeQueryRef": "holidayName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "publicholidays"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "publicholidays.date",
+              "nativeQueryRef": "date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "publicholidays"
+                    }
+                  },
+                  "Property": "countryRegionCode"
+                }
+              },
+              "queryRef": "publicholidays.countryRegionCode",
+              "nativeQueryRef": "countryRegionCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "publicholidays"
+                    }
+                  },
+                  "Property": "normalizeHolidayName"
+                }
+              },
+              "queryRef": "publicholidays.normalizeHolidayName",
+              "nativeQueryRef": "normalizeHolidayName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "publicholidays"
+                    }
+                  },
+                  "Property": "isPaidTimeOff"
+                }
+              },
+              "queryRef": "publicholidays.isPaidTimeOff",
+              "nativeQueryRef": "isPaidTimeOff"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4420aa960be614197ec2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "publicholidays"
+              }
+            },
+            "Property": "countryOrRegion"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f30b957a36b0eeb9268e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "publicholidays"
+              }
+            },
+            "Property": "holidayName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "69a5d59a0379c212a1c8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "publicholidays"
+              }
+            },
+            "Property": "date"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a800c2b068b814952027",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "publicholidays"
+              }
+            },
+            "Property": "countryRegionCode"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "cab49179b640545709a5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "publicholidays"
+              }
+            },
+            "Property": "normalizeHolidayName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "ac1a9c29a74a5612ed9a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "publicholidays"
+              }
+            },
+            "Property": "isPaidTimeOff"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PublicHolidayReport"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bd003bac-e51d-40cd-8748-e31b4f60d20f"
+  }
+}

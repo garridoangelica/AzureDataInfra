@@ -24,6 +24,16 @@ find_replace:
       _ALL_: "$items.Lakehouse.SilverLakehouse.$id"
     item_type: "Notebook"
 
+
+# # Replace connection ID in the Public holiday report SemanticModel per environment
+#   - find_value: "<source-connection-id>"
+#     replace_value:
+#       DEV: "<dev-connection-id>"
+#       TEST: "<test-connection-id>"
+#       PROD: "<prod-connection-id>"
+#     item_type: "SemanticModel"
+#     item_name: "Public holiday report"
+
 key_value_replace:
   # Replace notebook ID in the pipeline to reference the deployed SilverToGoldNotebook
   - find_key: $.properties.activities[?(@.name=="SilverToGold")].typeProperties.notebookId
@@ -38,3 +48,10 @@ key_value_replace:
       _ALL_: "$workspace.$id"
     item_type: "DataPipeline"
     item_name: "OrchestrateSilverToGoldPipeline"
+
+  # Replace the semantic model reference in the Public holiday Report (definition.pbir)
+  - find_key: $.datasetReference.byConnection.pbiModelDatabaseName
+    replace_value:
+      _ALL_: "$items.SemanticModel.Public holiday report.$id"
+    item_type: "Report"
+    item_name: "Public holiday report"
