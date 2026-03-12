@@ -9,7 +9,7 @@ core:
     PROD: "DataEngineeringWSProdCICD"
 
   # Path to workspace items (relative to this config file)
-  repository_directory: "../Workspaces/DataEngineeringWSDevCICD"
+  repository_directory: "../Workspaces/DataEngineeringReporting
 
   # Item types to deploy
   item_types_in_scope:

@@ -1,0 +1,275 @@
+name: Fabric - Full Deployment via Deployment Pipeline (Dev → Test → Prod)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Fabric/Workspaces/DataEngineeringWSDevCICD/**'
+      - 'Fabric/Fabric-CICD/**'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'How far to promote after DEV deployment'
+        required: false
+        default: 'test-and-prod'
+        type: choice
+        options: ['dev-only', 'test-only', 'test-and-prod']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # ── Stage 1: Deploy source items into the DEV workspace via fabric-cicd ───
+  deploy-dev:
+    name: Deploy to DEV
+    runs-on: ubuntu-latest
+    environment: fabriccicd
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r Fabric/Fabric-CICD/requirements.txt
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Preflight validation (DEV)
+        run: |
+          cd Fabric/Fabric-CICD
+          python deploy.py \
+            --config config.yml \
+            --environment DEV \
+            --cli-auth \
+            --validate
+
+      - name: Deploy all items to DEV
+        run: |
+          cd Fabric/Fabric-CICD
+          python deploy.py \
+            --config config.yml \
+            --environment DEV \
+            --cli-auth
+
+  # ── Stage 2: Promote DEV → TEST via Fabric Deployment Pipeline ────────────
+  promote-to-test:
+    name: Promote DEV → TEST
+    runs-on: ubuntu-latest
+    needs: deploy-dev
+    if: ${{ github.event.inputs.target != 'dev-only' }}
+    environment: fabriccicd
+
+    steps:
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Fabric access token
+        id: fabric-token
+        run: |
+          TOKEN=$(az account get-access-token \
+            --resource https://api.fabric.microsoft.com \
+            --query accessToken -o tsv)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Resolve DEV stage ID
+        id: stages
+        env:
+          FABRIC_TOKEN: ${{ steps.fabric-token.outputs.token }}
+          PIPELINE_ID: ${{ secrets.FABRIC_PIPELINE_ID }}
+        run: |
+          STAGES=$(curl -sf \
+            -H "Authorization: Bearer $FABRIC_TOKEN" \
+            "https://api.fabric.microsoft.com/v1/deploymentPipelines/$PIPELINE_ID/stages")
+          echo "$STAGES" | python3 -c "
+          import sys, json
+          stages = json.load(sys.stdin)['value']
+          dev = next(s for s in stages if s['order'] == 0)
+          print(f'dev_stage_id={dev[\"id\"]}')" >> $GITHUB_OUTPUT
+
+      - name: Trigger DEV → TEST promotion
+        id: trigger
+        env:
+          FABRIC_TOKEN: ${{ steps.fabric-token.outputs.token }}
+          PIPELINE_ID: ${{ secrets.FABRIC_PIPELINE_ID }}
+          DEV_STAGE_ID: ${{ steps.stages.outputs.dev_stage_id }}
+        run: |
+          BODY=$(python3 -c "
+          import json
+          print(json.dumps({
+            'note': 'Promoted DEV → TEST by GitHub Actions run ${{ github.run_id }}',
+            'options': {
+              'allowCreateArtifact': True,
+              'allowOverwriteArtifact': True,
+              'allowOverwriteTargetArtifactLabel': True,
+              'allowPurgeData': False,
+              'allowSkipItemsWithUnsupportedDefinitions': True
+            }
+          }))")
+
+          RESPONSE=$(curl -si \
+            -X POST \
+            -H "Authorization: Bearer $FABRIC_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" \
+            "https://api.fabric.microsoft.com/v1/deploymentPipelines/$PIPELINE_ID/stages/$DEV_STAGE_ID/deployToNextStage")
+
+          STATUS_CODE=$(echo "$RESPONSE" | grep -i "^HTTP" | awk '{print $2}')
+          LOCATION=$(echo "$RESPONSE" | grep -i "^Location:" | tr -d '\r' | awk '{print $2}')
+
+          if [ "$STATUS_CODE" != "202" ]; then
+            echo "Unexpected HTTP status: $STATUS_CODE"
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+          echo "operation_url=$LOCATION" >> $GITHUB_OUTPUT
+
+      - name: Wait for DEV → TEST to complete
+        env:
+          FABRIC_TOKEN: ${{ steps.fabric-token.outputs.token }}
+          OPERATION_URL: ${{ steps.trigger.outputs.operation_url }}
+        run: |
+          echo "Polling: $OPERATION_URL"
+          for i in $(seq 1 30); do
+            sleep 20
+            RESULT=$(curl -sf \
+              -H "Authorization: Bearer $FABRIC_TOKEN" \
+              "$OPERATION_URL")
+            STATUS=$(echo "$RESULT" | python3 -c \
+              "import sys,json; print(json.load(sys.stdin).get('status',''))")
+            echo "Attempt $i/30 — status: $STATUS"
+            if [ "$STATUS" = "Succeeded" ]; then
+              echo "DEV → TEST promotion succeeded."
+              exit 0
+            elif [ "$STATUS" = "Failed" ]; then
+              ERROR=$(echo "$RESULT" | python3 -c \
+                "import sys,json; d=json.load(sys.stdin); print(d.get('error',{}).get('message','unknown error'))")
+              echo "Promotion failed: $ERROR"
+              exit 1
+            fi
+          done
+          echo "Timed out after 10 minutes waiting for promotion."
+          exit 1
+
+  # ── Stage 3: Promote TEST → PROD via Fabric Deployment Pipeline ───────────
+  # Add required reviewers to the 'fabriccicd-prod' GitHub environment for
+  # a manual approval gate before PROD runs.
+  promote-to-prod:
+    name: Promote TEST → PROD
+    runs-on: ubuntu-latest
+    needs: promote-to-test
+    if: ${{ github.event.inputs.target == 'test-and-prod' || github.event_name == 'push' }}
+    environment: fabriccicd-prod
+
+    steps:
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Fabric access token
+        id: fabric-token
+        run: |
+          TOKEN=$(az account get-access-token \
+            --resource https://api.fabric.microsoft.com \
+            --query accessToken -o tsv)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Resolve TEST stage ID
+        id: stages
+        env:
+          FABRIC_TOKEN: ${{ steps.fabric-token.outputs.token }}
+          PIPELINE_ID: ${{ secrets.FABRIC_PIPELINE_ID }}
+        run: |
+          STAGES=$(curl -sf \
+            -H "Authorization: Bearer $FABRIC_TOKEN" \
+            "https://api.fabric.microsoft.com/v1/deploymentPipelines/$PIPELINE_ID/stages")
+          echo "$STAGES" | python3 -c "
+          import sys, json
+          stages = json.load(sys.stdin)['value']
+          test = next(s for s in stages if s['order'] == 1)
+          print(f'test_stage_id={test[\"id\"]}')" >> $GITHUB_OUTPUT
+
+      - name: Trigger TEST → PROD promotion
+        id: trigger
+        env:
+          FABRIC_TOKEN: ${{ steps.fabric-token.outputs.token }}
+          PIPELINE_ID: ${{ secrets.FABRIC_PIPELINE_ID }}
+          TEST_STAGE_ID: ${{ steps.stages.outputs.test_stage_id }}
+        run: |
+          BODY=$(python3 -c "
+          import json
+          print(json.dumps({
+            'note': 'Promoted TEST → PROD by GitHub Actions run ${{ github.run_id }}',
+            'options': {
+              'allowCreateArtifact': True,
+              'allowOverwriteArtifact': True,
+              'allowOverwriteTargetArtifactLabel': True,
+              'allowPurgeData': False,
+              'allowSkipItemsWithUnsupportedDefinitions': True
+            }
+          }))")
+
+          RESPONSE=$(curl -si \
+            -X POST \
+            -H "Authorization: Bearer $FABRIC_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" \
+            "https://api.fabric.microsoft.com/v1/deploymentPipelines/$PIPELINE_ID/stages/$TEST_STAGE_ID/deployToNextStage")
+
+          STATUS_CODE=$(echo "$RESPONSE" | grep -i "^HTTP" | awk '{print $2}')
+          LOCATION=$(echo "$RESPONSE" | grep -i "^Location:" | tr -d '\r' | awk '{print $2}')
+
+          if [ "$STATUS_CODE" != "202" ]; then
+            echo "Unexpected HTTP status: $STATUS_CODE"
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+          echo "operation_url=$LOCATION" >> $GITHUB_OUTPUT
+
+      - name: Wait for TEST → PROD to complete
+        env:
+          FABRIC_TOKEN: ${{ steps.fabric-token.outputs.token }}
+          OPERATION_URL: ${{ steps.trigger.outputs.operation_url }}
+        run: |
+          echo "Polling: $OPERATION_URL"
+          for i in $(seq 1 30); do
+            sleep 20
+            RESULT=$(curl -sf \
+              -H "Authorization: Bearer $FABRIC_TOKEN" \
+              "$OPERATION_URL")
+            STATUS=$(echo "$RESULT" | python3 -c \
+              "import sys,json; print(json.load(sys.stdin).get('status',''))")
+            echo "Attempt $i/30 — status: $STATUS"
+            if [ "$STATUS" = "Succeeded" ]; then
+              echo "TEST → PROD promotion succeeded."
+              exit 0
+            elif [ "$STATUS" = "Failed" ]; then
+              ERROR=$(echo "$RESULT" | python3 -c \
+                "import sys,json; d=json.load(sys.stdin); print(d.get('error',{}).get('message','unknown error'))")
+              echo "Promotion failed: $ERROR"
+              exit 1
+            fi
+          done
+          echo "Timed out after 10 minutes waiting for promotion."
+          exit 1
