@@ -168,14 +168,14 @@ jobs:
           exit 1
 
   # ── Stage 3: Promote TEST → PROD via Fabric Deployment Pipeline ───────────
-  # Add required reviewers to the 'fabriccicd-prod' GitHub environment for
+  # Add required reviewers to the 'fabriccicd' GitHub environment for
   # a manual approval gate before PROD runs.
   promote-to-prod:
     name: Promote TEST → PROD
     runs-on: ubuntu-latest
     needs: promote-to-test
     if: ${{ github.event.inputs.target == 'test-and-prod' || github.event_name == 'push' }}
-    environment: fabriccicd-prod
+    environment: fabriccicd
 
     steps:
       - name: Azure Login (OIDC)
