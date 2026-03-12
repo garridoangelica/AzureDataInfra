@@ -17,6 +17,8 @@ core:
     - Warehouse
     - Notebook
     - DataPipeline
+    - SemanticModel
+    - Report
 
   # Path to parameter file for environment-specific replacements
   parameter: "parameter.yml"
