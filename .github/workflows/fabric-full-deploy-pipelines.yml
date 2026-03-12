@@ -96,6 +96,7 @@ jobs:
           STAGES=$(curl -sf \
             -H "Authorization: Bearer $FABRIC_TOKEN" \
             "https://api.fabric.microsoft.com/v1/deploymentPipelines/$PIPELINE_ID/stages")
+          echo "API response: $STAGES"
           echo "$STAGES" | python3 -c "
           import sys, json
           stages = json.load(sys.stdin)['value']
