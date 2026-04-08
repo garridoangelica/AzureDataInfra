@@ -9,7 +9,7 @@ find_replace:
     is_regex: "true"
     item_type: "Notebook"
     item_name: "SilverToGoldNotebook"
-  
+
   # Replace workspace ID in the notebook using regex to match the default_lakehouse_workspace_id GUID
   - find_value: \#\s*META\s+"default_lakehouse_workspace_id":\s*"([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})"
     replace_value:
@@ -24,15 +24,23 @@ find_replace:
       _ALL_: "$items.Lakehouse.SilverLakehouse.$id"
     item_type: "Notebook"
 
+  # Replace workspace ID in the SemanticModel OneLake URL (first GUID after the domain)
+  # Matches: onelake.dfs.fabric.microsoft.com/{workspace-id}/{item-id}
+  - find_value: onelake\.dfs\.fabric\.microsoft\.com/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/
+    replace_value:
+      _ALL_: "$workspace.$id"
+    is_regex: "true"
+    item_type: "SemanticModel"
+    item_name: "PublicHolidaySM"
 
-# # Replace connection ID in the Public holiday report SemanticModel per environment
-#   - find_value: "<source-connection-id>"
-#     replace_value:
-#       DEV: "<dev-connection-id>"
-#       TEST: "<test-connection-id>"
-#       PROD: "<prod-connection-id>"
-#     item_type: "SemanticModel"
-#     item_name: "Public holiday report"
+  # Replace lakehouse item ID in the SemanticModel OneLake URL (second GUID — after workspace ID)
+  # Matches: onelake.dfs.fabric.microsoft.com/{workspace-id}/{lakehouse-id}
+  - find_value: onelake\.dfs\.fabric\.microsoft\.com/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})
+    replace_value:
+      _ALL_: "$items.Lakehouse.SilverLakehouse.$id"
+    is_regex: "true"
+    item_type: "SemanticModel"
+    item_name: "PublicHolidaySM"
 
 key_value_replace:
   # Replace notebook ID in the pipeline to reference the deployed SilverToGoldNotebook
@@ -41,7 +49,7 @@ key_value_replace:
       _ALL_: "$items.Notebook.SilverToGoldNotebook.$id"
     item_type: "DataPipeline"
     item_name: "OrchestrateSilverToGoldPipeline"
-  
+
   # Replace workspace ID in the pipeline to reference the target workspace
   - find_key: $.properties.activities[?(@.name=="SilverToGold")].typeProperties.workspaceId
     replace_value:
@@ -52,6 +60,6 @@ key_value_replace:
   # Replace the semantic model reference in the Public holiday Report (definition.pbir)
   - find_key: $.datasetReference.byConnection.pbiModelDatabaseName
     replace_value:
-      _ALL_: "$items.SemanticModel.Public holiday report.$id"
+      _ALL_: "$items.SemanticModel.PublicHolidaySM.$id"
     item_type: "Report"
-    item_name: "Public holiday report"
+    item_name: "PublicHolidayReport"
