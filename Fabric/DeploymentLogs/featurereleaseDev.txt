@@ -1,0 +1,125 @@
+Run cd Fabric/Fabric-CICD
+[info]   14:05:24 - 
+[info]   14:05:24 - ####################################################################################################
+[info]   14:05:24 - ########## Config-Based Deployment #################################################################
+[info]   14:05:24 - ####################################################################################################
+[info]   14:05:24 - 
+[info]   14:05:24 - Loading configuration from /home/runner/work/AzureDataInfra/AzureDataInfra/Fabric/Fabric-CICD/tmptcc0rgvf.yml for environment 'DEV'
+[info]   14:05:24 - repository_directory '../Workspaces/DataEngineeringReporting' resolved relative to config path: '/home/runner/work/AzureDataInfra/AzureDataInfra/Fabric/Workspaces/DataEngineeringReporting'
+[info]   14:05:24 - parameter 'parameter.yml' resolved relative to config path: '/home/runner/work/AzureDataInfra/AzureDataInfra/Fabric/Fabric-CICD/parameter.yml'
+[info]   14:05:24 - Using workspace 'DataEngineeringWSDevCICD'
+[info]   14:05:24 - Enabled feature flag: enable_experimental_features
+[info]   14:05:24 - Enabled feature flag: enable_config_deploy
+[info]   14:05:25 - Executing as Application Id '***'
+[info]   14:05:25 - 
+[info]   14:05:25 - ####################################################################################################
+[info]   14:05:25 - ########## Validating Parameter File ###############################################################
+[info]   14:05:25 - ####################################################################################################
+[info]   14:05:25 - 
+[warn]   14:05:25 - Found the reserved environment key '_ALL_'
+[warn]   14:05:25 - The replace value: '$items.Lakehouse.SilverLakehouse.$id' will be applied for any target environment
+[warn]   14:05:25 - Found the reserved environment key '_ALL_'
+[warn]   14:05:25 - The replace value: '$workspace.$id' will be applied for any target environment
+[warn]   14:05:25 - Found the reserved environment key '_ALL_'
+[warn]   14:05:25 - The replace value: '$items.Lakehouse.SilverLakehouse.$id' will be applied for any target environment
+[warn]   14:05:25 - Found the reserved environment key '_ALL_'
+[warn]   14:05:25 - The replace value: '$items.Notebook.SilverToGoldNotebook.$id' will be applied for any target environment
+[warn]   14:05:25 - Found the reserved environment key '_ALL_'
+[warn]   14:05:25 - The replace value: '$workspace.$id' will be applied for any target environment
+[warn]   14:05:25 - Found the reserved environment key '_ALL_'
+[error]  14:05:25 - Item name 'Public holiday report' not found in the repository directory
+[warn]   14:05:25 - The replace value: '$items.SemanticModel.Public holiday report.$id' will be applied for any target environment
+[info]   14:05:25 - Parameter file validation passed
+[info]   14:05:26 - 
+[info]   14:05:26 - ####################################################################################################
+[info]   14:05:26 - ########## Publishing Workspace Folders ############################################################
+[info]   14:05:26 - ####################################################################################################
+[info]   14:05:26 - 
+[info]   14:05:26 - Publishing Workspace Folders
+         14:05:26 - Published
+[warn]   14:05:28 - Using item_name_exclude_regex is risky as it can prevent needed dependencies from being deployed.  Use at your own risk.
+[info]   14:05:28 - 
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - ########## Publishing Item 2/25: Warehouse #########################################################
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - 
+[info]   14:05:28 - Skipping publishing of Warehouse 'GoldWarehouse' due to exclusion regex.
+[info]   14:05:28 - 
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - ########## Publishing Item 4/25: Lakehouse #########################################################
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - 
+[info]   14:05:28 - Skipping publishing of Lakehouse 'SilverLakehouse' due to exclusion regex.
+[info]   14:05:28 - 
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - ########## Publishing Item 10/25: Notebook #########################################################
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - 
+[info]   14:05:28 - Skipping publishing of Notebook 'Notebook_Dev' due to exclusion regex.
+[info]   14:05:28 - Skipping publishing of Notebook 'Notebook_ToTest' due to exclusion regex.
+[info]   14:05:28 - Skipping publishing of Notebook 'SilverToGoldNotebook' due to exclusion regex.
+[info]   14:05:28 - 
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - ########## Publishing Item 11/25: SemanticModel ####################################################
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - 
+[info]   14:05:28 - Skipping publishing of SemanticModel 'PublicHolidaySM' due to exclusion regex.
+[info]   14:05:28 - 
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - ########## Publishing Item 12/25: Report ###########################################################
+[info]   14:05:28 - ####################################################################################################
+[info]   14:05:28 - 
+[info]   14:05:28 - Publishing Report 'PublicHolidayReport'
+         14:05:30 - Published Report 'PublicHolidayReport'
+[info]   14:05:30 - 
+[info]   14:05:30 - ####################################################################################################
+[info]   14:05:30 - ########## Publishing Item 20/25: DataPipeline #####################################################
+[info]   14:05:30 - ####################################################################################################
+[info]   14:05:30 - 
+[info]   14:05:31 - Skipping publishing of DataPipeline 'pipelineDeployToProd' due to exclusion regex.
+[info]   14:05:31 - Skipping publishing of DataPipeline 'OrchestrateSilverToGoldPipeline' due to exclusion regex.
+[info]   14:05:31 - Skipping publishing of DataPipeline 'pipelineToDev' due to exclusion regex.
+[info]   14:05:31 - Skipping unpublish operation for environment 'DEV'
+[info]   14:05:31 - Config-based deployment completed successfully
+Using Azure CLI authentication...
+
+============================================================
+Preflight Validation
+Mode             : Feature Release (PublicHolidayReport)
+Environment      : DEV
+Target Workspace : DataEngineeringWSDevCICD
+Source Directory : /home/runner/work/AzureDataInfra/AzureDataInfra/Fabric/Workspaces/DataEngineeringReporting
+============================================================
+
+[ 1 ] Checking target workspace accessibility...
+      [OK] Workspace 'DataEngineeringWSDevCICD' is reachable (10 item(s) currently deployed)
+
+[ 2 ] Checking source item folders...
+      [OK]   SilverLakehouse.Lakehouse
+      [OK]   GoldWarehouse.Warehouse
+      [OK]   Notebook_Dev.Notebook
+      [OK]   Notebook_ToTest.Notebook
+      [OK]   SilverToGoldNotebook.Notebook
+      [OK]   pipelineDeployToProd.DataPipeline
+      [OK]   OrchestrateSilverToGoldPipeline.DataPipeline
+      [OK]   pipelineToDev.DataPipeline
+      [OK]   PublicHolidaySM.SemanticModel
+      [OK]   PublicHolidayReport.Report
+
+[ 3 ] Checking 2 parameter.yml dependency reference(s)...
+      [OK]   Lakehouse.SilverLakehouse — already exists in target workspace
+      [OK]   Notebook.SilverToGoldNotebook — already exists in target workspace
+
+Preflight PASSED — all checks OK.
+
+============================================================
+Deployment Mode  : Feature Release
+Environment      : DEV
+Config           : /home/runner/work/AzureDataInfra/AzureDataInfra/Fabric/Fabric-CICD/config.yml
+Items            : PublicHolidayReport
+============================================================
+
+
+============================================================
+Deployment completed successfully!
+============================================================
