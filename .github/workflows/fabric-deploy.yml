@@ -20,8 +20,7 @@ permissions:
   contents: read
 
 jobs:
-
-    # ── Stage 1: Deploy to Dev ────────────────────────────────────────────────
+  # ── Stage 1: Deploy to DEV ─────────────────────────────────────────────────
   deploy-dev:
     name: Deploy to DEV
     runs-on: ubuntu-latest
@@ -67,6 +66,7 @@ jobs:
   deploy-test:
     name: Deploy to TEST
     runs-on: ubuntu-latest
+    needs: deploy-dev
     environment: fabriccicd
 
     steps:
@@ -105,7 +105,7 @@ jobs:
             --environment TEST \
             --cli-auth
 
-  # ── Stage 3: Deploy to PROD (requires manual approval) ────────────────────
+  # ── Stage 3: Deploy to PROD ────────────────────────────────────────────────
   deploy-prod:
     name: Deploy to PROD
     runs-on: ubuntu-latest
