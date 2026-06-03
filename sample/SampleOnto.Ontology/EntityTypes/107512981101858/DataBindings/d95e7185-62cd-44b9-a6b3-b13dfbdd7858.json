@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/ontology/dataBinding/1.0.0/schema.json",
+  "id": "d95e7185-62cd-44b9-a6b3-b13dfbdd7858",
+  "dataBindingConfiguration": {
+    "dataBindingType": "NonTimeSeries",
+    "propertyBindings": [
+      {
+        "sourceColumnName": "destination_terminal_id",
+        "targetPropertyId": "7647044011629534851"
+      },
+      {
+        "sourceColumnName": "distance_miles",
+        "targetPropertyId": "7647044013604456993"
+      },
+      {
+        "sourceColumnName": "estimated_hours",
+        "targetPropertyId": "7647044011307868548"
+      },
+      {
+        "sourceColumnName": "estimated_hours_with_stops",
+        "targetPropertyId": "7647044012579912237"
+      },
+      {
+        "sourceColumnName": "fuel_stops_recommended",
+        "targetPropertyId": "7647044014006209774"
+      },
+      {
+        "sourceColumnName": "origin_terminal_id",
+        "targetPropertyId": "7647044010993725335"
+      },
+      {
+        "sourceColumnName": "route_id",
+        "targetPropertyId": "7647044014538354991"
+      },
+      {
+        "sourceColumnName": "route_name",
+        "targetPropertyId": "7647044013541198836"
+      },
+      {
+        "sourceColumnName": "toll_cost_estimate",
+        "targetPropertyId": "7647044012978340710"
+      },
+      {
+        "sourceColumnName": "waypoints",
+        "targetPropertyId": "7647044012167248593"
+      }
+    ],
+    "sourceTableProperties": {
+      "sourceType": "LakehouseTable",
+      "workspaceId": "c9b7effa-0f2a-44e4-a2f7-c761e77a8e4e",
+      "itemId": "a3550167-1351-4b8a-b66a-53f10030cc05",
+      "sourceTableName": "routes",
+      "sourceSchema": null
+    }
+  }
+}
